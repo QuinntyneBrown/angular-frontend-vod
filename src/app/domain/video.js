@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function video($q, videoDataService) {
+    function video($q, conference, videoDataService) {
 
         var self = this;
 
@@ -10,6 +10,6 @@
 
     }
 
-    angular.module("app").service("video",["$q", "videoDataService", video]);
+    angular.module("app").service("video", ["$q", "conference", "videoDataService", video]);
 
 })();

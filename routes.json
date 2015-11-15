@@ -3,77 +3,77 @@
     "when": "/",
     "config": {
       "componentName": "homeComponent",
-      "authorizationRequired": "true"
+      "authorizationRequired": true
     }
   },
   {
     "when": "/collection/:id",
     "config": {
       "componentName": "collectionComponent",
-      "authorizationRequired": "true"
+      "authorizationRequired": true
     }
   },
   {
     "when": "/collections",
     "config": {
       "componentName": "collectionsComponent",
-      "authorizationRequired": "true"
+      "authorizationRequired": true
     }
   },
   {
     "when": "/personalize",
     "config": {
       "componentName": "personalizeComponent",
-      "authorizationRequired": "true"
+      "authorizationRequired": true
     }
   },
   {
     "when": "/playlist",
     "config": {
       "componentName": "playlistComponent",
-      "authorizationRequired": "true"
+      "authorizationRequired": true
     }
   },
   {
-    "when": "/registration",
+    "when": "/register",
     "config": {
       "componentName": "registrationComponent",
-      "authorizationRequired": "false"
+      "authorizationRequired": false
     }
   },
   {
     "when": "/search",
     "config": {
       "componentName": "searchComponent",
-      "authorizationRequired": "true"
+      "authorizationRequired": true
     }
   },
   {
     "when": "/video/:id",
     "config": {
       "componentName": "videoComponent",
-      "authorizationRequired": "true"
+      "authorizationRequired": true
     }
   },
   {
     "when": "/video/play/:id",
     "config": {
       "componentName": "videoPlayerComponent",
-      "authorizationRequired": "true"
+      "authorizationRequired": true
     }
   },
   {
     "when": "/watchHistory",
     "config": {
       "componentName": "watchHistoryComponent",
-      "authorizationRequired": "true"
+      "authorizationRequired": true
     }
   },
   {
     "when": "/login",
     "config": {
       "componentName": "loginComponent",
-      "authorizationRequired": "false"
+      "authorizationRequired": false
     }
   }
 ]

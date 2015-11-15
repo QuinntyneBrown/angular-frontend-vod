@@ -17,6 +17,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
         component: AppComponent,
         template: [
             "<div>",
+            "<app-header></app-header>",
             "<div data-ng-view=''></div>",
             "</div>"
         ].join(" ")
@@ -27,6 +28,49 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
 
 
+
+(function () {
+
+    "use strict";
+
+    function HeaderComponent(securityManager) {
+
+        var self = this;
+
+        self.isLoggedIn = function () {
+            return (securityManager.token != null);
+        }
+
+        return self;
+    }
+
+    ngX.Component({
+        selector: "app-header",
+        component: HeaderComponent,
+        providers: ["securityManager"],
+        styles: [
+            ".app-header { width:100%; } ",
+            ".app-header a { text-decoration:none; } ",
+            ".app-header { padding-top:10px; padding-left:20px; padding-right:20px; height:100px; } ",
+            ".app-header h1 { font-size: 2em } ",
+            ".app-header .title { position:relative; float: left; width: 500px; } ",
+            ".app-header .links { position:relative; float: right; width: 400px; } ",
+        ].join(" \n "),
+        template: [
+            "<div class='app-header'>",
+            "<div class='title'>",
+            "<h1 href='#/'>Angular Frontend VOD</h1>",
+            "</div>",
+            "<div class='links'>",
+            "<a href='#/login'>Sign In</a>",
+            "<a href='#/register'>Register</a>",
+            "</div>",
+            "<div style='clear:both;'></div>",
+            "</div>"
+        ].join(" ")
+    });
+
+})();
 
 
 (function () {
@@ -45,11 +89,189 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
 
 
+(function () {
+
+    "use strict";
+
+    function loginComponent() {
+
+    }
+
+    ngX.Component({
+        component: loginComponent,
+        providers: ["conference"]
+    });
+
+})();
+
+
+
+(function () {
+
+    "use strict";
+
+    function LoginFormComponent($location, securityManager) {
+        var self = this;
+
+        self.username = "";
+
+        self.password = "";
+
+        self.tryToLogin = function () {
+            securityManager.token = true;
+            $location.path("/");
+        }
+        return self;
+    }
+
+    ngX.Component({
+        selector: "login-form",
+        component: LoginFormComponent,
+        providers: ["$location", "securityManager"],
+        styles: [" .login-form div {  padding-bottom: 15px; } "].join(" /n "),
+        template: [
+            "<form class='login-form'> ",
+            "    <div> ",
+            "        <input type='text' placeholder='Username' data-ng-model='vm.username' /> ",
+            "    </div> ",
+            "    <div> ",
+            "        <input type='password' placeholder='Password' data-ng-model='vm.username' /> ",
+            "    </div> ",
+            "    <div> ",
+            "        <button data-ng-click='vm.tryToLogin()' >Login</button> ",
+            "    </div> ",
+            "</form> "
+        ].join(" ")
+    });
+
+})();
 
 
 
 
 
+
+
+
+
+(function () {
+
+    "use strict";
+
+    function registrationComponent() {
+
+    }
+
+    ngX.Component({
+        component: registrationComponent
+    });
+
+})();
+
+
+
+(function () {
+
+    "use strict";
+
+    function registrationFormComponent($location, account) {
+        var self = this;
+
+        self.username = "";
+
+        self.firstName = "";
+
+        self.lastName = "";
+
+        self.password = "";
+
+        self.tryToRegister = function () {
+            securityManager.token = true;
+            $location.path("/");
+        }
+        return self;
+    }
+
+    ngX.Component({
+        selector: "registration-form",
+        component: registrationFormComponent,
+        providers: ["account"],
+        styles: [" .registration-form div {  padding-bottom: 15px; } "].join(" /n "),
+        template: [
+            "<form class='login-form'> ",
+            "    <div> ",
+            "        <input type='text' placeholder='Username' data-ng-model='vm.username' /> ",
+            "    </div> ",
+            "    <div> ",
+            "        <input type='text' placeholder='Firstname' data-ng-model='vm.username' /> ",
+            "    </div> ",
+            "    <div> ",
+            "        <input type='text' placeholder='Lastname' data-ng-model='vm.lastname' /> ",
+            "    </div> ",
+            "    <div> ",
+            "        <input type='password' placeholder='Password' data-ng-model='vm.password' /> ",
+            "    </div> ",
+            "    <div> ",
+            "        <input type='password' placeholder='Repeat Password' data-ng-model='vm.password' /> ",
+            "    </div> ",
+            "    <div> ",
+            "        <button data-ng-click='vm.tryToRegister()' >Register</button> ",
+            "    </div> ",
+            "</form> "
+        ].join(" ")
+    });
+
+})();
+
+
+
+
+
+(function () {
+
+    "use strict";
+
+    function searchComponent() {
+
+    }
+
+    ngX.Component({
+        component: searchComponent
+    });
+
+})();
+
+
+
+(function () {
+
+    "use strict";
+
+    function videoComponent() {
+
+    }
+
+    ngX.Component({
+        component: videoComponent
+    });
+
+})();
+
+
+
+(function () {
+
+    "use strict";
+
+    function videoPlayerComponent() {
+
+    }
+
+    ngX.Component({
+        component: videoPlayerComponent
+    });
+
+})();
 
 
 
@@ -150,7 +372,55 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     }
 
-    angular.module("app").service("collection", ["$q", "collectionDataService", collectionItme]);
+    angular.module("app").service("collectionItem", ["$q", "collectionDataService", collectionItem]);
+
+})();
+(function () {
+
+    "use strict";
+
+    function conference($injector, $q, fire, conferenceDataService) {
+
+        var self = this;
+
+        self.createInstanceAsync = function (options) {
+            var deferred = $q.defer();
+            var instance = new account($q, conferenceDataService);
+
+            if (options.data) {
+                var promises = [];
+                instance.name = options.data.name;
+
+                if (options.data.videos && options.data.videos.length > 0) {
+
+                    var video = $injector.get("video");
+                    var promises = [];
+                    for (var i = 0; i < options.data.videos.length; i++) {
+                        promises.push(video.createInstanceAsync({ data: options.data.videos[i] }));
+                    }
+
+                    $q.all(promises).then(function (videos) {
+                        instance.videos = videos;
+                        deferred.resolve(instance);
+                    });
+                }
+                else {
+                    deferred.resolve(instance);
+                }
+                
+            } else {
+                deferred.resolve(instance);
+            }
+            return deferred.promise;
+        };
+
+        self.name = "";
+
+        return self;
+
+    }
+
+    angular.module("app").service("conference", ["$injector", "$q", "fire", "conferenceDataService", conference]);
 
 })();
 (function () {
@@ -172,7 +442,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
-    function playlist($q, playlistItemDataService) {
+    function playlistItem($q, playlistItemDataService) {
 
         var self = this;
 
@@ -270,7 +540,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
-    function video($q, videoDataService) {
+    function video($q, conference, videoDataService) {
 
         var self = this;
 
@@ -278,7 +548,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     }
 
-    angular.module("app").service("video",["$q", "videoDataService", video]);
+    angular.module("app").service("video", ["$q", "conference", "videoDataService", video]);
 
 })();
 (function () {
@@ -317,7 +587,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     "use strict";
 
 
-    function accountDataService(apiEndpoint,dataService) {
+    function accountDataService($q, apiEndpoint,dataService) {
 
         var self = this;
 
@@ -345,12 +615,12 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
             return deferred.promise;
         };
 
-        self.baseUri = apiEndpoint.getBaseUri("account");
+        self.baseUri = apiEndpoint.getBaseUrl("account");
 
         return self;
     }
 
-    angular.module("app").service("accountDataService", ["$q","apiEndpoint","dataService", playlistManager]);
+    angular.module("app").service("accountDataService", ["$q", "apiEndpoint", "dataService", accountDataService]);
 
 })();
 (function () {
@@ -384,8 +654,95 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     angular.module("app").service("accountManager",["localStorageManager", accountManager]);
 
 })();
+(function () {
+
+    "use strict";
 
 
+    function collectionDataService($q, apiEndpoint, dataService) {
+
+        var self = this;
+
+        self.getAll = function (options) {
+            return dataService.fromService({
+                method: "GET", url: self.baseUri + "/getAll",
+                params: { accountId: options.accountId }
+            });
+        };
+
+        self.getById = function (options) {
+            return dataService.fromService({
+                method: "GET", url: self.baseUri + "/getById",
+                params: { id: options.id }
+            });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("collection");
+
+        return self;
+    }
+
+    angular.module("app").service("collectionDataService", ["$q", "apiEndpoint", "dataService", collectionDataService]);
+
+})();
+(function () {
+
+    "use strict";
+
+
+    function conferenceDataService($q, apiEndpoint, dataService) {
+
+        var self = this;
+
+        self.getAll = function (options) {
+            return dataService.fromService({
+                method: "GET", url: self.baseUri + "/getAll"
+            });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("conference");
+
+        return self;
+    }
+
+    angular.module("app").service("conferenceDataService", ["$q", "apiEndpoint", "dataService", conferenceDataService]);
+
+})();
+(function () {
+
+    "use strict";
+
+
+    function playlistDataService($q, apiEndpoint, dataService) {
+
+        var self = this;
+
+        self.getPlaylist = function (options) {
+            return dataService.fromService({ method: "GET", url: self.baseUri + "/getPlaylist", params: { profileId: options.profileId } });            
+        };
+
+        self.addToPlaylist = function (options) {
+            return dataService.fromService({
+                method: "POST", url: self.baseUri + "/addToPlaylist",
+                data: { playlistId: options.profileId, videoId: options.videoId }
+            });
+        };
+
+        self.removeFromPlaylist = function (options) {
+            return dataService.fromService({
+                method: "POST", url: self.baseUri + "/removeFromPlaylist",
+                data: { playlistId: options.profileId, videoId: options.videoId }
+            });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("playlist");
+
+        return self;
+    }
+
+    angular.module("app").service("playlistDataService", ["$q", "apiEndpoint", "dataService", playlistDataService]);
+
+})();
 (function () {
 
     "use strict";
@@ -406,8 +763,53 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     angular.module("app").service("playlistManager", ["localStorageManager", playlistManager]);
 
 })();
+(function () {
+
+    "use strict";
 
 
+    function profileDataService($q, apiEndpoint, dataService) {
+
+        var self = this;
+
+        self.getAll = function (options) {
+            return dataService.fromService({
+                method: "GET", url: self.baseUri + "/getAll",
+                params: { accountId: options.accountId }
+            });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("profile");
+
+        return self;
+    }
+
+    angular.module("app").service("profileDataService", ["$q", "apiEndpoint", "dataService", profileDataService]);
+
+})();
+(function () {
+
+    "use strict";
+
+
+    function videoDataService($q, apiEndpoint, dataService) {
+
+        var self = this;
+
+        self.getAll = function (options) {
+            return dataService.fromService({
+                method: "GET", url: self.baseUri + "/getAll"
+            });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("video");
+
+        return self;
+    }
+
+    angular.module("app").service("videoDataService", ["$q", "apiEndpoint", "dataService", videoDataService]);
+
+})();
 
 
 (function () {

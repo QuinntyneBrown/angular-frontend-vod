@@ -87,6 +87,8 @@
     <Content Include="src\app\components\header.component.js" />
     <Content Include="src\app\components\home.component.html" />
     <Content Include="src\app\components\home.component.js" />
+    <Content Include="src\app\components\login.component.js" />
+    <Content Include="src\app\components\loginForm.component.js" />
     <Content Include="src\app\components\personalize.component.html" />
     <Content Include="src\app\components\personlize.component.js" />
     <Content Include="src\app\components\playlist.component.html" />
@@ -97,6 +99,7 @@
     <Content Include="src\app\components\profilesManagement.component.js" />
     <Content Include="src\app\components\registration.component.html" />
     <Content Include="src\app\components\registration.component.js" />
+    <Content Include="src\app\components\registrationFormComponent.js" />
     <Content Include="src\app\components\search.component.html" />
     <Content Include="src\app\components\search.component.js" />
     <Content Include="src\app\components\video.component.html" />
@@ -105,8 +108,11 @@
     <Content Include="src\app\components\videoPlayer.component.js" />
     <Content Include="src\app\components\watchHistory.component.html" />
     <Content Include="src\app\components\watchHistory.component.js" />
+    <Content Include="src\app\domain\conference.js" />
     <Content Include="src\app\domain\profiles.js" />
+    <Content Include="src\app\providers\conferenceDataService.js" />
     <Content Include="videos.json" />
+    <Content Include="src\app\components\login.component.html" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -132,7 +138,6 @@
     <Content Include="src\app\providers\playlistDataService.js" />
     <Content Include="src\app\providers\playlistManager.js" />
     <Content Include="src\app\providers\profileDataService.js" />
-    <Content Include="src\app\providers\profileManager.js" />
     <Content Include="src\app\providers\videoDataService.js" />
     <Content Include="src\app\providers\videoManager.js" />
     <Content Include="src\app\providers\watchHistoryDataService.js" />

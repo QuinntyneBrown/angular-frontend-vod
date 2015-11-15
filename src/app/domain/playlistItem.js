@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function playlist($q, playlistItemDataService) {
+    function playlistItem($q, playlistItemDataService) {
 
         var self = this;
 

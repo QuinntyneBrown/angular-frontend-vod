@@ -3,7 +3,7 @@
     "use strict";
 
 
-    function videoDataService($q, apiEndpoint, dataService) {
+    function conferenceDataService($q, apiEndpoint, dataService) {
 
         var self = this;
 
@@ -13,11 +13,11 @@
             });
         };
 
-        self.baseUri = apiEndpoint.getBaseUrl("video");
+        self.baseUri = apiEndpoint.getBaseUrl("conference");
 
         return self;
     }
 
-    angular.module("app").service("videoDataService", ["$q", "apiEndpoint", "dataService", videoDataService]);
+    angular.module("app").service("conferenceDataService", ["$q", "apiEndpoint", "dataService", conferenceDataService]);
 
 })();

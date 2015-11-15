@@ -10,6 +10,6 @@
 
     }
 
-    angular.module("app").service("collection", ["$q", "collectionDataService", collectionItme]);
+    angular.module("app").service("collectionItem", ["$q", "collectionDataService", collectionItem]);
 
 })();

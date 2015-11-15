@@ -3,7 +3,7 @@
     "use strict";
 
 
-    function accountDataService(apiEndpoint,dataService) {
+    function accountDataService($q, apiEndpoint,dataService) {
 
         var self = this;
 
@@ -31,11 +31,11 @@
             return deferred.promise;
         };
 
-        self.baseUri = apiEndpoint.getBaseUri("account");
+        self.baseUri = apiEndpoint.getBaseUrl("account");
 
         return self;
     }
 
-    angular.module("app").service("accountDataService", ["$q","apiEndpoint","dataService", playlistManager]);
+    angular.module("app").service("accountDataService", ["$q", "apiEndpoint", "dataService", accountDataService]);
 
 })();
