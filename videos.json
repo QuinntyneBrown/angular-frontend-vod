@@ -1,0 +1,25 @@
+﻿[
+  {
+    "id": "VdxTkx4qnKg",
+    "name": "angular_hackathon",
+    "language": "Javascript",
+    "framework": "Angular",
+    "boxartImageUrl": "",
+    "heorImageUrl": "",
+    "level": "2",
+    "provider": "youtube",
+    "description": ""    
+  },
+  {
+    "id": "4YmnbGoh49U",
+    "name": "angulsr_2_better_concepts_less_code",
+    "language": "Javascript",
+    "framework": "Angular",
+    "boxartImageUrl": "",
+    "heorImageUrl": "",
+    "level": "2",
+    "provider": "youtube",
+    "description": ""
+  }
+
+]

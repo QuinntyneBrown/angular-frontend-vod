@@ -42,6 +42,13 @@
     }
   },
   {
+    "when": "/search",
+    "config": {
+      "componentName": "searchComponent",
+      "authorizationRequired": "true"
+    }
+  },
+  {
     "when": "/video/:id",
     "config": {
       "componentName": "videoComponent",

@@ -76,6 +76,37 @@
     <Content Include="node_modules\ng-x\dist\ngX.js" />
     <Content Include="packages.config" />
     <Content Include="package.json" />
+    <Content Include="src\app\components\accountManagement.component.html" />
+    <Content Include="src\app\components\accountManagement.component.js" />
+    <Content Include="src\app\components\app.component.js" />
+    <Content Include="src\app\components\collection.component.html" />
+    <Content Include="src\app\components\collection.component.js" />
+    <Content Include="src\app\components\collections.component.html" />
+    <Content Include="src\app\components\collections.component.js" />
+    <Content Include="src\app\components\entity.component.js" />
+    <Content Include="src\app\components\header.component.js" />
+    <Content Include="src\app\components\home.component.html" />
+    <Content Include="src\app\components\home.component.js" />
+    <Content Include="src\app\components\personalize.component.html" />
+    <Content Include="src\app\components\personlize.component.js" />
+    <Content Include="src\app\components\playlist.component.html" />
+    <Content Include="src\app\components\playlist.component.js" />
+    <Content Include="src\app\components\profile.component.html" />
+    <Content Include="src\app\components\profile.component.js" />
+    <Content Include="src\app\components\profilesManagement.component.html" />
+    <Content Include="src\app\components\profilesManagement.component.js" />
+    <Content Include="src\app\components\registration.component.html" />
+    <Content Include="src\app\components\registration.component.js" />
+    <Content Include="src\app\components\search.component.html" />
+    <Content Include="src\app\components\search.component.js" />
+    <Content Include="src\app\components\video.component.html" />
+    <Content Include="src\app\components\video.component.js" />
+    <Content Include="src\app\components\videoPlayer.component.html" />
+    <Content Include="src\app\components\videoPlayer.component.js" />
+    <Content Include="src\app\components\watchHistory.component.html" />
+    <Content Include="src\app\components\watchHistory.component.js" />
+    <Content Include="src\app\domain\profiles.js" />
+    <Content Include="videos.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -86,22 +117,6 @@
   <ItemGroup>
     <None Include="routes.json" />
     <Content Include="src\app\app.module.js" />
-    <Content Include="src\app\components\accountManagement.component.js" />
-    <Content Include="src\app\components\app.component.js" />
-    <Content Include="src\app\components\collection.component.js" />
-    <Content Include="src\app\components\collections.component.js" />
-    <Content Include="src\app\components\entity.component.js" />
-    <Content Include="src\app\components\header.component.js" />
-    <Content Include="src\app\components\home.component.html" />
-    <Content Include="src\app\components\home.component.js" />
-    <Content Include="src\app\components\personlize.component.js" />
-    <Content Include="src\app\components\playlist.component.js" />
-    <Content Include="src\app\components\profile.component.js" />
-    <Content Include="src\app\components\profilesManagement.component.js" />
-    <Content Include="src\app\components\registration.component.js" />
-    <Content Include="src\app\components\video.component.js" />
-    <Content Include="src\app\components\videoPlayer.component.js" />
-    <Content Include="src\app\components\watchHistory.component.js" />
     <Content Include="src\app\domain\account.js" />
     <Content Include="src\app\domain\collection.js" />
     <Content Include="src\app\domain\collectionItem.js" />
@@ -122,6 +137,8 @@
     <Content Include="src\app\providers\videoManager.js" />
     <Content Include="src\app\providers\watchHistoryDataService.js" />
     <Content Include="src\app\providers\watchHistoryManager.js" />
+    <Content Include="src\reset.css" />
+    <Content Include="src\site.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dist\" />
+    <Folder Include="src\assets\images\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
