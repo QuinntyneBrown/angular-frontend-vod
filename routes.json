@@ -1,0 +1,72 @@
+﻿[
+  {
+    "when": "/",
+    "config": {
+      "componentName": "homeComponent",
+      "authorizationRequired": "true"
+    }
+  },
+  {
+    "when": "/collection/:id",
+    "config": {
+      "componentName": "collectionComponent",
+      "authorizationRequired": "true"
+    }
+  },
+  {
+    "when": "/collections",
+    "config": {
+      "componentName": "collectionsComponent",
+      "authorizationRequired": "true"
+    }
+  },
+  {
+    "when": "/personalize",
+    "config": {
+      "componentName": "personalizeComponent",
+      "authorizationRequired": "true"
+    }
+  },
+  {
+    "when": "/playlist",
+    "config": {
+      "componentName": "playlistComponent",
+      "authorizationRequired": "true"
+    }
+  },
+  {
+    "when": "/registration",
+    "config": {
+      "componentName": "registrationComponent",
+      "authorizationRequired": "false"
+    }
+  },
+  {
+    "when": "/video/:id",
+    "config": {
+      "componentName": "videoComponent",
+      "authorizationRequired": "true"
+    }
+  },
+  {
+    "when": "/video/play/:id",
+    "config": {
+      "componentName": "videoPlayerComponent",
+      "authorizationRequired": "true"
+    }
+  },
+  {
+    "when": "/watchHistory",
+    "config": {
+      "componentName": "watchHistoryComponent",
+      "authorizationRequired": "true"
+    }
+  },
+  {
+    "when": "/login",
+    "config": {
+      "componentName": "loginComponent",
+      "authorizationRequired": "false"
+    }
+  }
+]

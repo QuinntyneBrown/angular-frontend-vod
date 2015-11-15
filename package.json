@@ -1,0 +1,30 @@
+{
+  "name": "angular-frontend-vod",
+  "version": "1.0.0",
+  "description": "video on demand app using Angular 1.x and ngX",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QuinntyneBrown/angular-frontend-vod.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/QuinntyneBrown/angular-frontend-vod/issues"
+  },
+  "homepage": "https://github.com/QuinntyneBrown/angular-frontend-vod#readme",
+  "dependencies": {
+    "angular": "^1.4.7",
+    "angular-route": "^1.4.7",
+    "jquery": "^2.1.4",
+    "ng-x": "^0.3.50",
+    "ng-x-components": "0.0.7"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0"
+  }
+}
