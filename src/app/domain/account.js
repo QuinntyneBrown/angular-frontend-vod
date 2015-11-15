@@ -2,9 +2,11 @@
 
     "use strict";
 
-    function account($q, accountDataService, fire, profile) {
+    function account($injector, $q, accountDataService, fire) {
 
         var self = this;
+
+        var profile = $injector.get("profile");
 
         self.createInstanceAsync = function (options) {
             var deferred = $q.defer();
@@ -64,6 +66,6 @@
 
     }
 
-    angular.module("app").service("account", ["$q", "accountDataService","fire","profile", account]);
+    angular.module("app").service("account", ["$injector", "$q", "accountDataService", "fire", account]);
 
 })();

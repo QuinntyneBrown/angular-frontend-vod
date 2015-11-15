@@ -10,6 +10,6 @@
 
     }
 
-    angular.module("app").service("collectionItem", ["$q", "collectionDataService", collectionItem]);
+    angular.module("app").service("collectionItem", ["$injector", "$q", "collectionDataService", collectionItem]);
 
 })();

@@ -2,12 +2,12 @@
 
     "use strict";
 
-    function collectionsComponent() {
+    function conferenceComponent() {
 
     }
 
     ngX.Component({
-        component: collectionsComponent
+        component: conferenceComponent
     });
 
 })();

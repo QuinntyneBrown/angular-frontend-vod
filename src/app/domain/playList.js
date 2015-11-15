@@ -10,6 +10,6 @@
 
     }
 
-    angular.module("app").service("playlist",["$q", "playlistDataService", playlist]);
+    angular.module("app").service("playlist", ["$injector", "$q", "playlistDataService", playlist]);
 
 })();

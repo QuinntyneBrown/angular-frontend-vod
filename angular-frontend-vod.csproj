@@ -83,7 +83,9 @@
     <Content Include="src\app\components\collection.component.js" />
     <Content Include="src\app\components\collections.component.html" />
     <Content Include="src\app\components\collections.component.js" />
-    <Content Include="src\app\components\entity.component.js" />
+    <Content Include="src\app\components\conference.component.html" />
+    <Content Include="src\app\components\conference.component.js" />
+    <Content Include="src\app\components\conferences.component.html" />
     <Content Include="src\app\components\header.component.js" />
     <Content Include="src\app\components\home.component.html" />
     <Content Include="src\app\components\home.component.js" />
@@ -113,6 +115,7 @@
     <Content Include="src\app\providers\conferenceDataService.js" />
     <Content Include="videos.json" />
     <Content Include="src\app\components\login.component.html" />
+    <Content Include="src\app\components\conferences.component" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

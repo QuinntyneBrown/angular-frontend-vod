@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function watchHistory($q, watchHistoryService) {
+    function watchHistory($injector, $q, watchHistoryService) {
 
         var self = this;
 
@@ -10,6 +10,6 @@
 
     }
 
-    angular.module("app").service("watchHistory", ["$q", "watchHistoryService", watchHistory]);
+    angular.module("app").service("watchHistory", ["$injector", "$q", "watchHistoryService", watchHistory]);
 
 })();

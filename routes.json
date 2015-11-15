@@ -21,6 +21,20 @@
     }
   },
   {
+    "when": "/conference",
+    "config": {
+      "componentName": "conferenceComponent",
+      "authorizationRequired": true
+    }
+  },
+  {
+    "when": "/conferences",
+    "config": {
+      "componentName": "conferencesComponent",
+      "authorizationRequired": true
+    }
+  },
+  {
     "when": "/personalize",
     "config": {
       "componentName": "personalizeComponent",

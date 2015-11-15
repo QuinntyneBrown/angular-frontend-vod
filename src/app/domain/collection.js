@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function collection($q, collecitonDataService) {
+    function collection($injector, $q, collecitonDataService) {
 
         var self = this;
 
@@ -10,6 +10,6 @@
 
     }
 
-    angular.module("app").service("collection", ["$q", "collectionDataService", collection]);
+    angular.module("app").service("collection", ["$injector", "$q", "collectionDataService", collection]);
 
 })();
