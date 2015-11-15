@@ -3,7 +3,7 @@
     "use strict";
 
 
-    function accountManager(localStorageManager) {
+    function accountStore(localStorageManager) {
     
         var self = this;
 
@@ -26,6 +26,6 @@
         return self;
     }
 
-    angular.module("app").service("accountManager",["localStorageManager", accountManager]);
+    angular.module("app").service("accountStore",["localStorageManager", accountStore]);
 
 })();

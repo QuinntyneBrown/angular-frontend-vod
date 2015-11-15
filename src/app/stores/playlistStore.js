@@ -3,7 +3,7 @@
     "use strict";
 
 
-    function playlistManager(localStorageManager) {
+    function playlistStore(localStorageManager) {
 
         var self = this;
 
@@ -15,6 +15,6 @@
         return self;
     }
 
-    angular.module("app").service("playlistManager", ["localStorageManager", playlistManager]);
+    angular.module("app").service("playlistStore", ["localStorageManager", playlistStore]);
 
 })();

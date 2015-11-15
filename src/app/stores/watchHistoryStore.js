@@ -3,7 +3,7 @@
     "use strict";
 
 
-    function watchHistoryManager(localStorageManager) {
+    function watchHistoryStore(localStorageManager) {
 
         var self = this;
 
@@ -15,6 +15,6 @@
         return self;
     }
 
-    angular.module("app").service("watchHistoryManager", ["localStorageManager", watchHistoryManager]);
+    angular.module("app").service("watchHistoryStore", ["localStorageManager", watchHistoryStore]);
 
 })();

@@ -3,7 +3,7 @@
     "use strict";
 
 
-    function videoManager(localStorageManager) {
+    function videoStore(localStorageManager) {
 
         var self = this;
 
@@ -15,6 +15,6 @@
         return self;
     }
 
-    angular.module("app").service("videoManager", ["localStorageManager", videoManager]);
+    angular.module("app").service("videoStore", ["localStorageManager", videoStore]);
 
 })();

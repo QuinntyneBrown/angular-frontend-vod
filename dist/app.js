@@ -7,6 +7,529 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
+    function account($injector, $q, accountDataService, fire) {
+
+        var self = this;
+
+        var profile = $injector.get("profile");
+
+        self.createInstanceAsync = function (options) {
+            var deferred = $q.defer();
+            var instance = new account($q, accountDataService, profile);
+
+            if (options.data) {
+                var promises = [];
+                instance.firstname = options.data.firstname;
+                instance.lastname = options.data.lastname;
+                instance.username = options.data.username;
+                for (var i = 0; i < options.data.profiles.length; i++) {
+                    promises.push(profile.createInstanceAsync({ data: options.data.profiles[i] }));
+                }
+                $q.all(promises).then(function (profiles) {
+                    instance.profiles;
+                    deferred.resolve(instance);
+                });
+            } else {
+                deferred.resolve(instance);
+            }
+            return deferred.promise;
+        };
+
+        self.register = function (options) {
+            self.fire = fire;
+            accountDataService.register(options).then(function () {
+                self.fire("modelUpdate", { model: self });
+            });
+        };
+
+        self.setDefaultProfile = function (options) {
+            self.fire = fire;
+            accountDataService.setDefaultProfile(options).then(function () {
+                self.fire("modelUpdate", {
+                    action: "update",
+                    model: self
+                });
+            });
+        };
+
+        self.setCurrentProfile = function (options) {
+            self.fire = fire;
+            accountDataService.setCurrentProfile(options).then(function () {
+                self.fire("modelUpdate", {
+                    action: "update",
+                    model: self
+                });
+            });
+        };
+
+        self.firstname = "";
+        self.lastname = "";
+        self.profiles = [];
+        self.id = 0;
+        self.defaultProfileId = null;
+        return self;
+
+    }
+
+    angular.module("app").service("account", ["$injector", "$q", "accountDataService", "fire", account]);
+
+})();
+(function () {
+
+    "use strict";
+
+    function collection($injector, $q, collecitonDataService) {
+
+        var self = this;
+
+        return this;
+
+    }
+
+    angular.module("app").service("collection", ["$injector", "$q", "collectionDataService", collection]);
+
+})();
+(function () {
+
+    "use strict";
+
+    function collectionItem($q, collecitonDataService) {
+
+        var self = this;
+
+        return this;
+
+    }
+
+    angular.module("app").service("collectionItem", ["$injector", "$q", "collectionDataService", collectionItem]);
+
+})();
+(function () {
+
+    "use strict";
+
+    function conference($injector, $q, fire, conferenceDataService) {
+
+        var self = this;
+
+        self.createInstanceAsync = function (options) {
+            var deferred = $q.defer();
+            var instance = new account($q, conferenceDataService);
+
+            if (options.data) {
+                var promises = [];
+                instance.name = options.data.name;
+
+                if (options.data.videos && options.data.videos.length > 0) {
+
+                    var video = $injector.get("video");
+                    var promises = [];
+                    for (var i = 0; i < options.data.videos.length; i++) {
+                        promises.push(video.createInstanceAsync({ data: options.data.videos[i] }));
+                    }
+
+                    $q.all(promises).then(function (videos) {
+                        instance.videos = videos;
+                        deferred.resolve(instance);
+                    });
+                }
+                else {
+                    deferred.resolve(instance);
+                }
+                
+            } else {
+                deferred.resolve(instance);
+            }
+            return deferred.promise;
+        };
+
+        self.name = "";
+
+        return self;
+
+    }
+
+    angular.module("app").service("conference", ["$injector", "$q", "fire", "conferenceDataService", conference]);
+
+})();
+(function () {
+
+    "use strict";
+
+    function playlist($q, playlistDataService) {
+
+        var self = this;
+
+        return this;
+
+    }
+
+    angular.module("app").service("playlist", ["$injector", "$q", "playlistDataService", playlist]);
+
+})();
+(function () {
+
+    "use strict";
+
+    function playlistItem($q, playlistItemDataService) {
+
+        var self = this;
+
+        return this;
+
+    }
+
+    angular.module("app").service("playlistItem", ["$injector", "$q", "playlistItemDataService", playlistItem]);
+
+})();
+(function () {
+
+    "use strict";
+
+    function profile($injector, $q, fire, profileDataService) {
+
+        var self = this;
+
+        self.createInstanceAsync = function (options) {
+            var deferred = $q.defer();
+            var instance = new account($q, profileDataService);
+
+            if (options.data) {
+                var promises = [];
+                instance.firstname = options.data.firstname;
+                instance.lastname = options.data.lastname;
+                instance.level = options.data.level;
+                deferred.resolve(instance);
+            } else {
+                deferred.resolve(instance);
+            }
+            return deferred.promise;
+        };
+
+        self.add = function (options) {
+            self.fire = fire;
+            profileDataService.add(options).then(function () {
+                self.fire("modelUpdate", {
+                    action:"add",
+                    model: self
+                });
+            });
+        };
+
+        self.update = function (options) {
+            self.fire = fire;
+            profileDataService.update(options).then(function () {
+                self.fire("modelUpdate", {
+                    action: "update",
+                    model: self
+                });
+            });
+        };
+
+        self.remove = function (options) {
+            self.fire = fire;
+            profileDataService.remove(options).then(function () {
+                self.fire("modelUpdate", {
+                    action: "delete",
+                    model: self
+                });
+            });
+        };
+
+
+        self.firstname = "";
+        self.lastname = "";
+        self.accounId = 0;
+        self.id = 0;
+        self.level = 1;
+        self.avatarImageUrl = "";
+        return self;
+
+    }
+
+    angular.module("app").service("profile", ["$injector", "$q", "fire", "profileDataService", profile]);
+
+})();
+(function () {
+
+    "use strict";
+
+    function profiles($injector, $q, profileDataService) {
+
+        var self = this;
+
+        return this;
+
+    }
+
+    angular.module("app").service("profiles", ["$injector", "$q", "profileDataService", profiles]);
+
+})();
+(function () {
+
+    "use strict";
+
+    function video($injector, $q, conference, playlistStore, videoDataService, watchHistoryStore) {
+
+        var self = this;
+
+        self.createInstanceAsync = function(options) {
+            var instance = new video($injector, $q, conference, playlistStore, videoDataService, watchHistoryStore);
+
+
+            playlistStore.subscribe("PLAYLIST_UPDATE", instance.onStoreUpdate);
+
+            return $q.when(instance);
+        };
+
+        self.onStoreUpdate = function(options) {
+
+        };
+
+        self.onPlaylist = false;
+
+        return self;
+
+    }
+
+    angular.module("app").service("video", ["$injector", "$q", "playlistStore", "videoDataService", "watchHistoryStore", video]);
+
+})();
+(function () {
+
+    "use strict";
+
+    function watchHistory($injector, $q, watchHistoryService) {
+
+        var self = this;
+
+        return this;
+
+    }
+
+    angular.module("app").service("watchHistory", ["$injector", "$q", "watchHistoryService", watchHistory]);
+
+})();
+(function () {
+
+    "use strict";
+
+    function watchHistoryItem($injector, $q, watchHistoryService) {
+        var self = this;
+        self.createInstanceAsync = function () {
+            var instance = new watchHistoryItem($injector, $q, watchHistoryService);
+            return $q.when(instance);
+        };
+        return self;
+    }
+
+    angular.module("app").service("watchHistoryItem", ["$injector", "$q", "watchHistoryService", watchHistoryItem]);
+
+})();
+(function () {
+
+    "use strict";
+
+
+    function accountDataService($q, apiEndpoint,dataService) {
+
+        var self = this;
+
+        self.register = function (options) {
+            var deferred = $q.defer();
+            dataService.fromService({ method: "POST", url: self.baseUri + "/register", data: options.data }).then(function (results) {
+                deferred.resolve();
+            });
+            return deferred.promise;
+        };
+
+        self.setCurrentProfile = function (options) {
+            var deferred = $q.defer();
+            dataService.fromService({ method: "PUT", url: self.baseUri + "/setCurrentProfile", data: options.data }).then(function (results) {
+                deferred.resolve();
+            });
+            return deferred.promise;
+        };
+
+        self.setDefaultProfile = function (options) {
+            var deferred = $q.defer();
+            dataService.fromService({ method: "PUT", url: self.baseUri + "/setDefaultProfile", data: options.data }).then(function (results) {
+                deferred.resolve();
+            });
+            return deferred.promise;
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("account");
+
+        return self;
+    }
+
+    angular.module("app").service("accountDataService", ["$q", "apiEndpoint", "dataService", accountDataService]);
+
+})();
+(function () {
+
+    "use strict";
+
+
+    function collectionDataService($q, apiEndpoint, dataService) {
+
+        var self = this;
+
+        self.getAll = function (options) {
+            return dataService.fromService({
+                method: "GET", url: self.baseUri + "/getAll",
+                params: { accountId: options.accountId }
+            });
+        };
+
+        self.getById = function (options) {
+            return dataService.fromService({
+                method: "GET", url: self.baseUri + "/getById",
+                params: { id: options.id }
+            });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("collection");
+
+        return self;
+    }
+
+    angular.module("app").service("collectionDataService", ["$q", "apiEndpoint", "dataService", collectionDataService]);
+
+})();
+(function () {
+
+    "use strict";
+
+
+    function conferenceDataService($q, apiEndpoint, dataService) {
+
+        var self = this;
+
+        self.getAll = function (options) {
+            return dataService.fromService({
+                method: "GET", url: self.baseUri + "/getAll"
+            });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("conference");
+
+        return self;
+    }
+
+    angular.module("app").service("conferenceDataService", ["$q", "apiEndpoint", "dataService", conferenceDataService]);
+
+})();
+(function () {
+
+    "use strict";
+
+
+    function playlistDataService($q, apiEndpoint, dataService) {
+
+        var self = this;
+
+        self.getPlaylist = function (options) {
+            return dataService.fromService({ method: "GET", url: self.baseUri + "/getPlaylist", params: { profileId: options.profileId } });            
+        };
+
+        self.addToPlaylist = function (options) {
+            return dataService.fromService({
+                method: "POST", url: self.baseUri + "/addToPlaylist",
+                data: { playlistId: options.profileId, videoId: options.videoId }
+            });
+        };
+
+        self.removeFromPlaylist = function (options) {
+            return dataService.fromService({
+                method: "POST", url: self.baseUri + "/removeFromPlaylist",
+                data: { playlistId: options.profileId, videoId: options.videoId }
+            });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("playlist");
+
+        return self;
+    }
+
+    angular.module("app").service("playlistDataService", ["$q", "apiEndpoint", "dataService", playlistDataService]);
+
+})();
+(function () {
+
+    "use strict";
+
+
+    function profileDataService($q, apiEndpoint, dataService) {
+
+        var self = this;
+
+        self.getAll = function (options) {
+            return dataService.fromService({
+                method: "GET", url: self.baseUri + "/getAll",
+                params: { accountId: options.accountId }
+            });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("profile");
+
+        return self;
+    }
+
+    angular.module("app").service("profileDataService", ["$q", "apiEndpoint", "dataService", profileDataService]);
+
+})();
+(function () {
+
+    "use strict";
+
+
+    function videoDataService($q, apiEndpoint, dataService) {
+
+        var self = this;
+
+        self.getAll = function (options) {
+            return dataService.fromService({
+                method: "GET", url: self.baseUri + "/getAll"
+            });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("video");
+
+        return self;
+    }
+
+    angular.module("app").service("videoDataService", ["$q", "apiEndpoint", "dataService", videoDataService]);
+
+})();
+(function () {
+
+    "use strict";
+
+
+    function watchHistoryDataService($q, apiEndpoint, dataService) {
+
+        var self = this;
+
+        self.get = function (options) {
+            return dataService.fromService({
+                method: "GET", url: self.baseUri + "/get"
+            });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("watchHistory");
+
+        return self;
+    }
+
+    angular.module("app").service("watchHistoryDataService", ["$q", "apiEndpoint", "dataService", watchHistoryDataService]);
+
+})();
+(function () {
+
+    "use strict";
+
     function accountManagementComponent() {
 
     }
@@ -32,6 +555,45 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
             "<app-header></app-header>",
             "<div data-ng-view=''></div>",
             "</div>"
+        ].join(" ")
+    });
+
+})();
+
+
+(function () {
+
+    "use strict";
+
+    function cardComponent($scope, securityManager) {
+
+        var self = this;
+
+        self.isLoggedIn = function () {
+            return (securityManager.token != null);
+        }
+
+        self.addToPlaylist = function(options) {
+            $scope.$emit({ action: "ADD_TO_PLAYLIST", data: {                
+                model: self.model,
+                currentUser: securityManager.currentUser
+            }});
+        }
+
+
+        return self;
+    }
+
+    ngX.Component({
+        selector: "card",
+        component: cardComponent,
+        providers: ["$scope","securityManager"],
+        inputs:["model"],
+        styles: [
+
+        ].join(" \n "),
+        template: [
+
         ].join(" ")
     });
 
@@ -400,357 +962,8 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
-    function account($injector, $q, accountDataService, fire) {
 
-        var self = this;
-
-        var profile = $injector.get("profile");
-
-        self.createInstanceAsync = function (options) {
-            var deferred = $q.defer();
-            var instance = new account($q, accountDataService, profile);
-
-            if (options.data) {
-                var promises = [];
-                instance.firstname = options.data.firstname;
-                instance.lastname = options.data.lastname;
-                instance.username = options.data.username;
-                for (var i = 0; i < options.data.profiles.length; i++) {
-                    promises.push(profile.createInstanceAsync({ data: options.data.profiles[i] }));
-                }
-                $q.all(promises).then(function (profiles) {
-                    instance.profiles;
-                    deferred.resolve(instance);
-                });
-            } else {
-                deferred.resolve(instance);
-            }
-            return deferred.promise;
-        };
-
-        self.register = function (options) {
-            self.fire = fire;
-            accountDataService.register(options).then(function () {
-                self.fire("modelUpdate", { model: self });
-            });
-        };
-
-        self.setDefaultProfile = function (options) {
-            self.fire = fire;
-            accountDataService.setDefaultProfile(options).then(function () {
-                self.fire("modelUpdate", {
-                    action: "update",
-                    model: self
-                });
-            });
-        };
-
-        self.setCurrentProfile = function (options) {
-            self.fire = fire;
-            accountDataService.setCurrentProfile(options).then(function () {
-                self.fire("modelUpdate", {
-                    action: "update",
-                    model: self
-                });
-            });
-        };
-
-        self.firstname = "";
-        self.lastname = "";
-        self.profiles = [];
-        self.id = 0;
-        self.defaultProfileId = null;
-        return self;
-
-    }
-
-    angular.module("app").service("account", ["$injector", "$q", "accountDataService", "fire", account]);
-
-})();
-(function () {
-
-    "use strict";
-
-    function collection($injector, $q, collecitonDataService) {
-
-        var self = this;
-
-        return this;
-
-    }
-
-    angular.module("app").service("collection", ["$injector", "$q", "collectionDataService", collection]);
-
-})();
-(function () {
-
-    "use strict";
-
-    function collectionItem($q, collecitonDataService) {
-
-        var self = this;
-
-        return this;
-
-    }
-
-    angular.module("app").service("collectionItem", ["$injector", "$q", "collectionDataService", collectionItem]);
-
-})();
-(function () {
-
-    "use strict";
-
-    function conference($injector, $q, fire, conferenceDataService) {
-
-        var self = this;
-
-        self.createInstanceAsync = function (options) {
-            var deferred = $q.defer();
-            var instance = new account($q, conferenceDataService);
-
-            if (options.data) {
-                var promises = [];
-                instance.name = options.data.name;
-
-                if (options.data.videos && options.data.videos.length > 0) {
-
-                    var video = $injector.get("video");
-                    var promises = [];
-                    for (var i = 0; i < options.data.videos.length; i++) {
-                        promises.push(video.createInstanceAsync({ data: options.data.videos[i] }));
-                    }
-
-                    $q.all(promises).then(function (videos) {
-                        instance.videos = videos;
-                        deferred.resolve(instance);
-                    });
-                }
-                else {
-                    deferred.resolve(instance);
-                }
-                
-            } else {
-                deferred.resolve(instance);
-            }
-            return deferred.promise;
-        };
-
-        self.name = "";
-
-        return self;
-
-    }
-
-    angular.module("app").service("conference", ["$injector", "$q", "fire", "conferenceDataService", conference]);
-
-})();
-(function () {
-
-    "use strict";
-
-    function playlist($q, playlistDataService) {
-
-        var self = this;
-
-        return this;
-
-    }
-
-    angular.module("app").service("playlist", ["$injector", "$q", "playlistDataService", playlist]);
-
-})();
-(function () {
-
-    "use strict";
-
-    function playlistItem($q, playlistItemDataService) {
-
-        var self = this;
-
-        return this;
-
-    }
-
-    angular.module("app").service("playlistItem", ["$injector", "$q", "playlistItemDataService", playlistItem]);
-
-})();
-(function () {
-
-    "use strict";
-
-    function profile($injector, $q, fire, profileDataService) {
-
-        var self = this;
-
-        self.createInstanceAsync = function (options) {
-            var deferred = $q.defer();
-            var instance = new account($q, profileDataService);
-
-            if (options.data) {
-                var promises = [];
-                instance.firstname = options.data.firstname;
-                instance.lastname = options.data.lastname;
-                instance.level = options.data.level;
-                deferred.resolve(instance);
-            } else {
-                deferred.resolve(instance);
-            }
-            return deferred.promise;
-        };
-
-        self.add = function (options) {
-            self.fire = fire;
-            profileDataService.add(options).then(function () {
-                self.fire("modelUpdate", {
-                    action:"add",
-                    model: self
-                });
-            });
-        };
-
-        self.update = function (options) {
-            self.fire = fire;
-            profileDataService.update(options).then(function () {
-                self.fire("modelUpdate", {
-                    action: "update",
-                    model: self
-                });
-            });
-        };
-
-        self.remove = function (options) {
-            self.fire = fire;
-            profileDataService.remove(options).then(function () {
-                self.fire("modelUpdate", {
-                    action: "delete",
-                    model: self
-                });
-            });
-        };
-
-
-        self.firstname = "";
-        self.lastname = "";
-        self.accounId = 0;
-        self.id = 0;
-        self.level = 1;
-        self.avatarImageUrl = "";
-        return self;
-
-    }
-
-    angular.module("app").service("profile", ["$injector", "$q", "fire", "profileDataService", profile]);
-
-})();
-(function () {
-
-    "use strict";
-
-    function profiles($injector, $q, profileDataService) {
-
-        var self = this;
-
-        return this;
-
-    }
-
-    angular.module("app").service("profiles", ["$injector", "$q", "profileDataService", profiles]);
-
-})();
-(function () {
-
-    "use strict";
-
-    function video($injector, $q, conference, videoDataService) {
-
-        var self = this;
-
-        return this;
-
-    }
-
-    angular.module("app").service("video", ["$injector", "$q", "videoDataService", video]);
-
-})();
-(function () {
-
-    "use strict";
-
-    function watchHistory($injector, $q, watchHistoryService) {
-
-        var self = this;
-
-        return this;
-
-    }
-
-    angular.module("app").service("watchHistory", ["$injector", "$q", "watchHistoryService", watchHistory]);
-
-})();
-(function () {
-
-    "use strict";
-
-    function watchHistoryItem($injector, $q, watchHistoryService) {
-        var self = this;
-        self.createInstanceAsync = function () {
-            var instance = new watchHistoryItem($injector, $q, watchHistoryService);
-            return $q.when(instance);
-        };
-        return self;
-    }
-
-    angular.module("app").service("watchHistoryItem", ["$injector", "$q", "watchHistoryService", watchHistoryItem]);
-
-})();
-(function () {
-
-    "use strict";
-
-
-    function accountDataService($q, apiEndpoint,dataService) {
-
-        var self = this;
-
-        self.register = function (options) {
-            var deferred = $q.defer();
-            dataService.fromService({ method: "POST", url: self.baseUri + "/register", data: options.data }).then(function (results) {
-                deferred.resolve();
-            });
-            return deferred.promise;
-        };
-
-        self.setCurrentProfile = function (options) {
-            var deferred = $q.defer();
-            dataService.fromService({ method: "PUT", url: self.baseUri + "/setCurrentProfile", data: options.data }).then(function (results) {
-                deferred.resolve();
-            });
-            return deferred.promise;
-        };
-
-        self.setDefaultProfile = function (options) {
-            var deferred = $q.defer();
-            dataService.fromService({ method: "PUT", url: self.baseUri + "/setDefaultProfile", data: options.data }).then(function (results) {
-                deferred.resolve();
-            });
-            return deferred.promise;
-        };
-
-        self.baseUri = apiEndpoint.getBaseUrl("account");
-
-        return self;
-    }
-
-    angular.module("app").service("accountDataService", ["$q", "apiEndpoint", "dataService", accountDataService]);
-
-})();
-(function () {
-
-    "use strict";
-
-
-    function accountManager(localStorageManager) {
+    function accountStore(localStorageManager) {
     
         var self = this;
 
@@ -773,7 +986,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
         return self;
     }
 
-    angular.module("app").service("accountManager",["localStorageManager", accountManager]);
+    angular.module("app").service("accountStore",["localStorageManager", accountStore]);
 
 })();
 (function () {
@@ -781,96 +994,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     "use strict";
 
 
-    function collectionDataService($q, apiEndpoint, dataService) {
-
-        var self = this;
-
-        self.getAll = function (options) {
-            return dataService.fromService({
-                method: "GET", url: self.baseUri + "/getAll",
-                params: { accountId: options.accountId }
-            });
-        };
-
-        self.getById = function (options) {
-            return dataService.fromService({
-                method: "GET", url: self.baseUri + "/getById",
-                params: { id: options.id }
-            });
-        };
-
-        self.baseUri = apiEndpoint.getBaseUrl("collection");
-
-        return self;
-    }
-
-    angular.module("app").service("collectionDataService", ["$q", "apiEndpoint", "dataService", collectionDataService]);
-
-})();
-(function () {
-
-    "use strict";
-
-
-    function conferenceDataService($q, apiEndpoint, dataService) {
-
-        var self = this;
-
-        self.getAll = function (options) {
-            return dataService.fromService({
-                method: "GET", url: self.baseUri + "/getAll"
-            });
-        };
-
-        self.baseUri = apiEndpoint.getBaseUrl("conference");
-
-        return self;
-    }
-
-    angular.module("app").service("conferenceDataService", ["$q", "apiEndpoint", "dataService", conferenceDataService]);
-
-})();
-(function () {
-
-    "use strict";
-
-
-    function playlistDataService($q, apiEndpoint, dataService) {
-
-        var self = this;
-
-        self.getPlaylist = function (options) {
-            return dataService.fromService({ method: "GET", url: self.baseUri + "/getPlaylist", params: { profileId: options.profileId } });            
-        };
-
-        self.addToPlaylist = function (options) {
-            return dataService.fromService({
-                method: "POST", url: self.baseUri + "/addToPlaylist",
-                data: { playlistId: options.profileId, videoId: options.videoId }
-            });
-        };
-
-        self.removeFromPlaylist = function (options) {
-            return dataService.fromService({
-                method: "POST", url: self.baseUri + "/removeFromPlaylist",
-                data: { playlistId: options.profileId, videoId: options.videoId }
-            });
-        };
-
-        self.baseUri = apiEndpoint.getBaseUrl("playlist");
-
-        return self;
-    }
-
-    angular.module("app").service("playlistDataService", ["$q", "apiEndpoint", "dataService", playlistDataService]);
-
-})();
-(function () {
-
-    "use strict";
-
-
-    function playlistManager(localStorageManager) {
+    function playlistStore(localStorageManager) {
 
         var self = this;
 
@@ -882,7 +1006,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
         return self;
     }
 
-    angular.module("app").service("playlistManager", ["localStorageManager", playlistManager]);
+    angular.module("app").service("playlistStore", ["localStorageManager", playlistStore]);
 
 })();
 (function () {
@@ -890,54 +1014,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     "use strict";
 
 
-    function profileDataService($q, apiEndpoint, dataService) {
-
-        var self = this;
-
-        self.getAll = function (options) {
-            return dataService.fromService({
-                method: "GET", url: self.baseUri + "/getAll",
-                params: { accountId: options.accountId }
-            });
-        };
-
-        self.baseUri = apiEndpoint.getBaseUrl("profile");
-
-        return self;
-    }
-
-    angular.module("app").service("profileDataService", ["$q", "apiEndpoint", "dataService", profileDataService]);
-
-})();
-(function () {
-
-    "use strict";
-
-
-    function videoDataService($q, apiEndpoint, dataService) {
-
-        var self = this;
-
-        self.getAll = function (options) {
-            return dataService.fromService({
-                method: "GET", url: self.baseUri + "/getAll"
-            });
-        };
-
-        self.baseUri = apiEndpoint.getBaseUrl("video");
-
-        return self;
-    }
-
-    angular.module("app").service("videoDataService", ["$q", "apiEndpoint", "dataService", videoDataService]);
-
-})();
-(function () {
-
-    "use strict";
-
-
-    function videoManager(localStorageManager) {
+    function videoStore(localStorageManager) {
 
         var self = this;
 
@@ -949,7 +1026,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
         return self;
     }
 
-    angular.module("app").service("videoManager", ["localStorageManager", videoManager]);
+    angular.module("app").service("videoStore", ["localStorageManager", videoStore]);
 
 })();
 (function () {
@@ -957,30 +1034,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     "use strict";
 
 
-    function watchHistoryDataService($q, apiEndpoint, dataService) {
-
-        var self = this;
-
-        self.get = function (options) {
-            return dataService.fromService({
-                method: "GET", url: self.baseUri + "/get"
-            });
-        };
-
-        self.baseUri = apiEndpoint.getBaseUrl("watchHistory");
-
-        return self;
-    }
-
-    angular.module("app").service("watchHistoryDataService", ["$q", "apiEndpoint", "dataService", watchHistoryDataService]);
-
-})();
-(function () {
-
-    "use strict";
-
-
-    function watchHistoryManager(localStorageManager) {
+    function watchHistoryStore(localStorageManager) {
 
         var self = this;
 
@@ -992,6 +1046,6 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
         return self;
     }
 
-    angular.module("app").service("watchHistoryManager", ["localStorageManager", watchHistoryManager]);
+    angular.module("app").service("watchHistoryStore", ["localStorageManager", watchHistoryStore]);
 
 })();
