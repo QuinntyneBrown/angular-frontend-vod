@@ -106,7 +106,7 @@
     <Content Include="src\app\components\profile.component.js" />
     <Content Include="src\app\components\profiles-management.component.js" />
     <Content Include="src\app\components\registration.component.js" />
-    <Content Include="src\app\components\registratio-formComponent.js" />
+    <Content Include="src\app\components\registration-form.component.js" />
     <Content Include="src\app\components\search.component.js" />
     <Content Include="src\app\components\video.component.js" />
     <Content Include="src\app\components\video-player.component.js" />
@@ -115,7 +115,7 @@
     <Content Include="src\app\domain\collection.js" />
     <Content Include="src\app\domain\collection-item.js" />
     <Content Include="src\app\domain\conference.js" />
-    <Content Include="src\app\domain\playList.js" />
+    <Content Include="src\app\domain\playlist.js" />
     <Content Include="src\app\domain\playlist-item.js" />
     <Content Include="src\app\domain\profile.js" />
     <Content Include="src\app\domain\profiles.js" />
