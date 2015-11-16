@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function playlist($q, playlistDataService) {
+    function playlist($q, playlistActions) {
 
         var self = this;
 
@@ -10,6 +10,6 @@
 
     }
 
-    angular.module("app").service("playlist", ["$injector", "$q", "playlistDataService", playlist]);
+    angular.module("app").service("playlist", ["$injector", "$q", "playlistActions", playlist]);
 
 })();

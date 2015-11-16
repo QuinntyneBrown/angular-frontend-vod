@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function profiles($injector, $q, profileDataService) {
+    function profiles($injector, $q, profileActions) {
 
         var self = this;
 
@@ -10,6 +10,6 @@
 
     }
 
-    angular.module("app").service("profiles", ["$injector", "$q", "profileDataService", profiles]);
+    angular.module("app").service("profiles", ["$injector", "$q", "profileActions", profiles]);
 
 })();

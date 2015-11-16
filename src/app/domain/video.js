@@ -2,12 +2,12 @@
 
     "use strict";
 
-    function video($injector, $q, conference, playlistStore, videoDataService, watchHistoryStore) {
+    function video($injector, $q, conference, playlistStore, videoActions, watchHistoryStore) {
 
         var self = this;
 
         self.createInstanceAsync = function(options) {
-            var instance = new video($injector, $q, conference, playlistStore, videoDataService, watchHistoryStore);
+            var instance = new video($injector, $q, conference, playlistStore, videoActions, watchHistoryStore);
 
 
             playlistStore.subscribe("PLAYLIST_UPDATE", instance.onStoreUpdate);
@@ -25,6 +25,6 @@
 
     }
 
-    angular.module("app").service("video", ["$injector", "$q", "playlistStore", "videoDataService", "watchHistoryStore", video]);
+    angular.module("app").service("video", ["$injector", "$q", "playlistStore", "videoActions", "watchHistoryStore", video]);
 
 })();

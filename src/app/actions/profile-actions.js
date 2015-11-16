@@ -19,6 +19,6 @@
         return self;
     }
 
-    angular.module("app").service("profileActions", ["apiEndpoint", "dataService", profileActions]);
+    angular.module("app").service("profileActions", ["apiEndpoint", "Actions", profileActions]);
 
 })();

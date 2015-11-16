@@ -118,7 +118,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
         return self;
     }
 
-    angular.module("app").service("playlistActions", ["apiEndpoint", "dataService", playlistActions]);
+    angular.module("app").service("playlistActions", ["apiEndpoint", "Actions", playlistActions]);
 
 })();
 (function () {
@@ -142,7 +142,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
         return self;
     }
 
-    angular.module("app").service("profileActions", ["apiEndpoint", "dataService", profileActions]);
+    angular.module("app").service("profileActions", ["apiEndpoint", "Actions", profileActions]);
 
 })();
 (function () {
@@ -641,7 +641,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
-    function account($injector, $q, accountDataService, fire) {
+    function account($injector, $q, accountActions, fire) {
 
         var self = this;
 
@@ -649,7 +649,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
         self.createInstanceAsync = function (options) {
             var deferred = $q.defer();
-            var instance = new account($q, accountDataService, profile);
+            var instance = new account($q, accountActions, profile);
 
             if (options.data) {
                 var promises = [];
@@ -671,14 +671,14 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
         self.register = function (options) {
             self.fire = fire;
-            accountDataService.register(options).then(function () {
+            accountActions.register(options).then(function () {
                 self.fire("modelUpdate", { model: self });
             });
         };
 
         self.setDefaultProfile = function (options) {
             self.fire = fire;
-            accountDataService.setDefaultProfile(options).then(function () {
+            accountActions.setDefaultProfile(options).then(function () {
                 self.fire("modelUpdate", {
                     action: "update",
                     model: self
@@ -688,7 +688,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
         self.setCurrentProfile = function (options) {
             self.fire = fire;
-            accountDataService.setCurrentProfile(options).then(function () {
+            accountActions.setCurrentProfile(options).then(function () {
                 self.fire("modelUpdate", {
                     action: "update",
                     model: self
@@ -705,14 +705,14 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     }
 
-    angular.module("app").service("account", ["$injector", "$q", "accountDataService", "fire", account]);
+    angular.module("app").service("account", ["$injector", "$q", "accountActions", "fire", account]);
 
 })();
 (function () {
 
     "use strict";
 
-    function collectionItem($q, collecitonDataService) {
+    function collectionItem($q, collectionActions) {
 
         var self = this;
 
@@ -720,14 +720,14 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     }
 
-    angular.module("app").service("collectionItem", ["$injector", "$q", "collectionDataService", collectionItem]);
+    angular.module("app").service("collectionItem", ["$injector", "$q", "collectionActions", collectionItem]);
 
 })();
 (function () {
 
     "use strict";
 
-    function collection($injector, $q, collecitonDataService) {
+    function collection($injector, $q, collectionActions) {
 
         var self = this;
 
@@ -735,20 +735,20 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     }
 
-    angular.module("app").service("collection", ["$injector", "$q", "collectionDataService", collection]);
+    angular.module("app").service("collection", ["$injector", "$q", "collectionActions", collection]);
 
 })();
 (function () {
 
     "use strict";
 
-    function conference($injector, $q, fire, conferenceDataService) {
+    function conference($injector, $q, fire, conferenceActions) {
 
         var self = this;
 
         self.createInstanceAsync = function (options) {
             var deferred = $q.defer();
-            var instance = new account($q, conferenceDataService);
+            var instance = new account($q, conferenceActions);
 
             if (options.data) {
                 var promises = [];
@@ -783,14 +783,14 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     }
 
-    angular.module("app").service("conference", ["$injector", "$q", "fire", "conferenceDataService", conference]);
+    angular.module("app").service("conference", ["$injector", "$q", "fire", "conferenceActions", conference]);
 
 })();
 (function () {
 
     "use strict";
 
-    function playlistItem($q, playlistItemDataService) {
+    function playlistItem($q, playlistItemActions) {
 
         var self = this;
 
@@ -798,14 +798,14 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     }
 
-    angular.module("app").service("playlistItem", ["$injector", "$q", "playlistItemDataService", playlistItem]);
+    angular.module("app").service("playlistItem", ["$injector", "$q", "playlistItemActions", playlistItem]);
 
 })();
 (function () {
 
     "use strict";
 
-    function playlist($q, playlistDataService) {
+    function playlist($q, playlistActions) {
 
         var self = this;
 
@@ -813,20 +813,20 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     }
 
-    angular.module("app").service("playlist", ["$injector", "$q", "playlistDataService", playlist]);
+    angular.module("app").service("playlist", ["$injector", "$q", "playlistActions", playlist]);
 
 })();
 (function () {
 
     "use strict";
 
-    function profile($injector, $q, fire, profileDataService) {
+    function profile($injector, $q, fire, profileActions) {
 
         var self = this;
 
         self.createInstanceAsync = function (options) {
             var deferred = $q.defer();
-            var instance = new account($q, profileDataService);
+            var instance = new account($q, profileActions);
 
             if (options.data) {
                 var promises = [];
@@ -842,7 +842,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
         self.add = function (options) {
             self.fire = fire;
-            profileDataService.add(options).then(function () {
+            profileActions.add(options).then(function () {
                 self.fire("modelUpdate", {
                     action:"add",
                     model: self
@@ -852,7 +852,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
         self.update = function (options) {
             self.fire = fire;
-            profileDataService.update(options).then(function () {
+            profileActions.update(options).then(function () {
                 self.fire("modelUpdate", {
                     action: "update",
                     model: self
@@ -862,7 +862,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
         self.remove = function (options) {
             self.fire = fire;
-            profileDataService.remove(options).then(function () {
+            profileActions.remove(options).then(function () {
                 self.fire("modelUpdate", {
                     action: "delete",
                     model: self
@@ -881,14 +881,14 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     }
 
-    angular.module("app").service("profile", ["$injector", "$q", "fire", "profileDataService", profile]);
+    angular.module("app").service("profile", ["$injector", "$q", "fire", "profileActions", profile]);
 
 })();
 (function () {
 
     "use strict";
 
-    function profiles($injector, $q, profileDataService) {
+    function profiles($injector, $q, profileActions) {
 
         var self = this;
 
@@ -896,19 +896,19 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     }
 
-    angular.module("app").service("profiles", ["$injector", "$q", "profileDataService", profiles]);
+    angular.module("app").service("profiles", ["$injector", "$q", "profileActions", profiles]);
 
 })();
 (function () {
 
     "use strict";
 
-    function video($injector, $q, conference, playlistStore, videoDataService, watchHistoryStore) {
+    function video($injector, $q, conference, playlistStore, videoActions, watchHistoryStore) {
 
         var self = this;
 
         self.createInstanceAsync = function(options) {
-            var instance = new video($injector, $q, conference, playlistStore, videoDataService, watchHistoryStore);
+            var instance = new video($injector, $q, conference, playlistStore, videoActions, watchHistoryStore);
 
 
             playlistStore.subscribe("PLAYLIST_UPDATE", instance.onStoreUpdate);
@@ -926,7 +926,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     }
 
-    angular.module("app").service("video", ["$injector", "$q", "playlistStore", "videoDataService", "watchHistoryStore", video]);
+    angular.module("app").service("video", ["$injector", "$q", "playlistStore", "videoActions", "watchHistoryStore", video]);
 
 })();
 (function () {

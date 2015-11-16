@@ -2,13 +2,13 @@
 
     "use strict";
 
-    function conference($injector, $q, fire, conferenceDataService) {
+    function conference($injector, $q, fire, conferenceActions) {
 
         var self = this;
 
         self.createInstanceAsync = function (options) {
             var deferred = $q.defer();
-            var instance = new account($q, conferenceDataService);
+            var instance = new account($q, conferenceActions);
 
             if (options.data) {
                 var promises = [];
@@ -43,6 +43,6 @@
 
     }
 
-    angular.module("app").service("conference", ["$injector", "$q", "fire", "conferenceDataService", conference]);
+    angular.module("app").service("conference", ["$injector", "$q", "fire", "conferenceActions", conference]);
 
 })();

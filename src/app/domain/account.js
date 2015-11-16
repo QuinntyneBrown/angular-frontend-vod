@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function account($injector, $q, accountDataService, fire) {
+    function account($injector, $q, accountActions, fire) {
 
         var self = this;
 
@@ -10,7 +10,7 @@
 
         self.createInstanceAsync = function (options) {
             var deferred = $q.defer();
-            var instance = new account($q, accountDataService, profile);
+            var instance = new account($q, accountActions, profile);
 
             if (options.data) {
                 var promises = [];
@@ -32,14 +32,14 @@
 
         self.register = function (options) {
             self.fire = fire;
-            accountDataService.register(options).then(function () {
+            accountActions.register(options).then(function () {
                 self.fire("modelUpdate", { model: self });
             });
         };
 
         self.setDefaultProfile = function (options) {
             self.fire = fire;
-            accountDataService.setDefaultProfile(options).then(function () {
+            accountActions.setDefaultProfile(options).then(function () {
                 self.fire("modelUpdate", {
                     action: "update",
                     model: self
@@ -49,7 +49,7 @@
 
         self.setCurrentProfile = function (options) {
             self.fire = fire;
-            accountDataService.setCurrentProfile(options).then(function () {
+            accountActions.setCurrentProfile(options).then(function () {
                 self.fire("modelUpdate", {
                     action: "update",
                     model: self
@@ -66,6 +66,6 @@
 
     }
 
-    angular.module("app").service("account", ["$injector", "$q", "accountDataService", "fire", account]);
+    angular.module("app").service("account", ["$injector", "$q", "accountActions", "fire", account]);
 
 })();

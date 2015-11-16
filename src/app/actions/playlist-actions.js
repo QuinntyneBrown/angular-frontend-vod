@@ -30,6 +30,6 @@
         return self;
     }
 
-    angular.module("app").service("playlistActions", ["apiEndpoint", "dataService", playlistActions]);
+    angular.module("app").service("playlistActions", ["apiEndpoint", "Actions", playlistActions]);
 
 })();
