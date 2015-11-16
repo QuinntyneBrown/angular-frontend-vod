@@ -226,18 +226,18 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
-    function cardComponent($scope, securityManager) {
+    function cardComponent($scope, securityStore) {
 
         var self = this;
 
         self.isLoggedIn = function () {
-            return (securityManager.token != null);
+            return (securityStore.token != null);
         }
 
         self.addToPlaylist = function(options) {
             $scope.$emit({ action: "ADD_TO_PLAYLIST", data: {                
                 model: self.model,
-                currentUser: securityManager.currentUser
+                currentUser: securityStore.currentUser
             }});
         }
 
@@ -248,7 +248,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     ngX.Component({
         selector: "card",
         component: cardComponent,
-        providers: ["$scope","securityManager"],
+        providers: ["$scope","securityStore"],
         inputs:["model"],
         styles: [
 
@@ -307,12 +307,12 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
-    function HeaderComponent(securityManager) {
+    function HeaderComponent(securityStore) {
 
         var self = this;
 
         self.isLoggedIn = function () {
-            return (securityManager.token != null);
+            return (securityStore.token != null);
         }
 
         return self;
@@ -321,7 +321,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     ngX.Component({
         selector: "app-header",
         component: HeaderComponent,
-        providers: ["securityManager"],
+        providers: ["securityStore"],
         styles: [
             ".app-header { width:100%; } ",
             ".app-header a { text-decoration:none; } ",
@@ -368,7 +368,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
-    function LoginFormComponent($location, securityManager) {
+    function LoginFormComponent($location, securityStore) {
         var self = this;
 
         self.username = "";
@@ -376,7 +376,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
         self.password = "";
 
         self.tryToLogin = function () {
-            securityManager.token = true;
+            securityStore.token = true;
             $location.path("/");
         }
         return self;
@@ -385,7 +385,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     ngX.Component({
         selector: "login-form",
         component: LoginFormComponent,
-        providers: ["$location", "securityManager"],
+        providers: ["$location", "securityStore"],
         styles: [" .login-form div {  padding-bottom: 15px; } "].join(" /n "),
         template: [
             "<form class='login-form'> ",
@@ -509,7 +509,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
         self.password = "";
 
         self.tryToRegister = function () {
-            securityManager.token = true;
+            securityStore.token = true;
             $location.path("/");
         }
         return self;

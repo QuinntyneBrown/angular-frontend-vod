@@ -14,7 +14,7 @@
         self.password = "";
 
         self.tryToRegister = function () {
-            securityManager.token = true;
+            securityStore.token = true;
             $location.path("/");
         }
         return self;

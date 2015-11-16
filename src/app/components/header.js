@@ -2,12 +2,12 @@
 
     "use strict";
 
-    function HeaderComponent(securityManager) {
+    function HeaderComponent(securityStore) {
 
         var self = this;
 
         self.isLoggedIn = function () {
-            return (securityManager.token != null);
+            return (securityStore.token != null);
         }
 
         return self;
@@ -16,7 +16,7 @@
     ngX.Component({
         selector: "app-header",
         component: HeaderComponent,
-        providers: ["securityManager"],
+        providers: ["securityStore"],
         styles: [
             ".app-header { width:100%; } ",
             ".app-header a { text-decoration:none; } ",

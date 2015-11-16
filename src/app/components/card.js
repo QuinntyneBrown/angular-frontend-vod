@@ -2,18 +2,18 @@
 
     "use strict";
 
-    function cardComponent($scope, securityManager) {
+    function cardComponent($scope, securityStore) {
 
         var self = this;
 
         self.isLoggedIn = function () {
-            return (securityManager.token != null);
+            return (securityStore.token != null);
         }
 
         self.addToPlaylist = function(options) {
             $scope.$emit({ action: "ADD_TO_PLAYLIST", data: {                
                 model: self.model,
-                currentUser: securityManager.currentUser
+                currentUser: securityStore.currentUser
             }});
         }
 
@@ -24,7 +24,7 @@
     ngX.Component({
         selector: "card",
         component: cardComponent,
-        providers: ["$scope","securityManager"],
+        providers: ["$scope","securityStore"],
         inputs:["model"],
         styles: [
 
