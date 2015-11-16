@@ -3,12 +3,12 @@
     "use strict";
 
 
-    function profileDataService($q, apiEndpoint, dataService) {
+    function profileActions(apiEndpoint, fetch) {
 
         var self = this;
 
         self.getAll = function (options) {
-            return dataService.fromService({
+            fetch.fromService({
                 method: "GET", url: self.baseUri + "/getAll",
                 params: { accountId: options.accountId }
             });
@@ -19,6 +19,6 @@
         return self;
     }
 
-    angular.module("app").service("profileDataService", ["$q", "apiEndpoint", "dataService", profileDataService]);
+    angular.module("app").service("profileActions", ["apiEndpoint", "dataService", profileActions]);
 
 })();

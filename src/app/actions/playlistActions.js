@@ -3,23 +3,23 @@
     "use strict";
 
 
-    function playlistDataService($q, apiEndpoint, dataService) {
+    function playlistActions(apiEndpoint, fetch) {
 
         var self = this;
 
         self.getPlaylist = function (options) {
-            return dataService.fromService({ method: "GET", url: self.baseUri + "/getPlaylist", params: { profileId: options.profileId } });            
+            fetch.fromService({ method: "GET", url: self.baseUri + "/getPlaylist", params: { profileId: options.profileId } });            
         };
 
         self.addToPlaylist = function (options) {
-            return dataService.fromService({
+            fetch.fromService({
                 method: "POST", url: self.baseUri + "/addToPlaylist",
                 data: { playlistId: options.profileId, videoId: options.videoId }
             });
         };
 
         self.removeFromPlaylist = function (options) {
-            return dataService.fromService({
+            fetch.fromService({
                 method: "POST", url: self.baseUri + "/removeFromPlaylist",
                 data: { playlistId: options.profileId, videoId: options.videoId }
             });
@@ -30,6 +30,6 @@
         return self;
     }
 
-    angular.module("app").service("playlistDataService", ["$q", "apiEndpoint", "dataService", playlistDataService]);
+    angular.module("app").service("playlistActions", ["apiEndpoint", "dataService", playlistActions]);
 
 })();

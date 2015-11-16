@@ -3,19 +3,19 @@
     "use strict";
 
 
-    function collectionDataService($q, apiEndpoint, dataService) {
+    function collectionActions(apiEndpoint, fetch) {
 
         var self = this;
 
         self.getAll = function (options) {
-            return dataService.fromService({
+            fetch.fromService({
                 method: "GET", url: self.baseUri + "/getAll",
                 params: { accountId: options.accountId }
             });
         };
 
         self.getById = function (options) {
-            return dataService.fromService({
+            fetch.fromService({
                 method: "GET", url: self.baseUri + "/getById",
                 params: { id: options.id }
             });
@@ -26,6 +26,6 @@
         return self;
     }
 
-    angular.module("app").service("collectionDataService", ["$q", "apiEndpoint", "dataService", collectionDataService]);
+    angular.module("app").service("collectionActions", ["$q", "apiEndpoint", "fetch", collectionActions]);
 
 })();

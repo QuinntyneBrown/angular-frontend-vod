@@ -3,12 +3,12 @@
     "use strict";
 
 
-    function conferenceDataService($q, apiEndpoint, dataService) {
+    function conferenceActions(apiEndpoint, fetch) {
 
         var self = this;
 
         self.getAll = function (options) {
-            return dataService.fromService({
+            fetch.fromService({
                 method: "GET", url: self.baseUri + "/getAll"
             });
         };
@@ -18,6 +18,6 @@
         return self;
     }
 
-    angular.module("app").service("conferenceDataService", ["$q", "apiEndpoint", "dataService", conferenceDataService]);
+    angular.module("app").service("conferenceActions", ["apiEndpoint", "fetch", conferenceActions]);
 
 })();

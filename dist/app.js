@@ -7,6 +7,438 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
+    function accountManagementComponent() {
+
+    }
+
+    ngX.Component({
+        component: accountManagementComponent
+    });
+
+})();
+(function () {
+
+    "use strict";
+
+    function AppComponent() {
+
+    }
+
+    ngX.Component({
+        selector: "app",
+        component: AppComponent,
+        template: [
+            "<div>",
+            "<app-header></app-header>",
+            "<div data-ng-view=''></div>",
+            "</div>"
+        ].join(" ")
+    });
+
+})();
+
+
+(function () {
+
+    "use strict";
+
+    function cardComponent($scope, securityManager) {
+
+        var self = this;
+
+        self.isLoggedIn = function () {
+            return (securityManager.token != null);
+        }
+
+        self.addToPlaylist = function(options) {
+            $scope.$emit({ action: "ADD_TO_PLAYLIST", data: {                
+                model: self.model,
+                currentUser: securityManager.currentUser
+            }});
+        }
+
+
+        return self;
+    }
+
+    ngX.Component({
+        selector: "card",
+        component: cardComponent,
+        providers: ["$scope","securityManager"],
+        inputs:["model"],
+        styles: [
+
+        ].join(" \n "),
+        template: [
+
+        ].join(" ")
+    });
+
+})();
+
+
+(function () {
+
+    "use strict";
+
+    function collectionComponent() {
+
+    }
+
+    ngX.Component({
+        component: collectionComponent
+    });
+
+})();
+(function () {
+
+    "use strict";
+
+    function collectionsComponent() {
+
+    }
+
+    ngX.Component({
+        component: collectionsComponent
+    });
+
+})();
+(function () {
+
+    "use strict";
+
+    function conferenceComponent() {
+
+    }
+
+    ngX.Component({
+        component: conferenceComponent
+    });
+
+})();
+(function () {
+
+    "use strict";
+
+    function HeaderComponent(securityManager) {
+
+        var self = this;
+
+        self.isLoggedIn = function () {
+            return (securityManager.token != null);
+        }
+
+        return self;
+    }
+
+    ngX.Component({
+        selector: "app-header",
+        component: HeaderComponent,
+        providers: ["securityManager"],
+        styles: [
+            ".app-header { width:100%; } ",
+            ".app-header a { text-decoration:none; } ",
+            ".app-header { padding-top:10px; padding-left:20px; padding-right:20px; height:100px; } ",
+            ".app-header h1 { font-size: 2em } ",
+            ".app-header .title { position:relative; float: left; width: 500px; } ",
+            ".app-header .links { position:relative; float: right; width: 400px; } ",
+        ].join(" \n "),
+        template: [
+            "<div class='app-header'>",
+            "<div class='title'>",
+            "<h1 href='#/'>Angular Frontend VOD</h1>",
+            "</div>",
+            "<div class='links'>",
+            "<a href='#/login'>Sign In</a>",
+            "<a href='#/register'>Register</a>",
+            "</div>",
+            "<div style='clear:both;'></div>",
+            "</div>"
+        ].join(" ")
+    });
+
+})();
+
+
+(function () {
+
+    "use strict";
+
+    function HomeComponent() {
+
+    }
+
+    ngX.Component({
+        component: HomeComponent
+    });
+
+})();
+
+
+
+(function () {
+
+    "use strict";
+
+    function loginComponent() {
+
+    }
+
+    ngX.Component({
+        component: loginComponent,
+        providers: ["conference"]
+    });
+
+})();
+
+
+
+(function () {
+
+    "use strict";
+
+    function LoginFormComponent($location, securityManager) {
+        var self = this;
+
+        self.username = "";
+
+        self.password = "";
+
+        self.tryToLogin = function () {
+            securityManager.token = true;
+            $location.path("/");
+        }
+        return self;
+    }
+
+    ngX.Component({
+        selector: "login-form",
+        component: LoginFormComponent,
+        providers: ["$location", "securityManager"],
+        styles: [" .login-form div {  padding-bottom: 15px; } "].join(" /n "),
+        template: [
+            "<form class='login-form'> ",
+            "    <div> ",
+            "        <input type='text' placeholder='Username' data-ng-model='vm.username' /> ",
+            "    </div> ",
+            "    <div> ",
+            "        <input type='password' placeholder='Password' data-ng-model='vm.username' /> ",
+            "    </div> ",
+            "    <div> ",
+            "        <button data-ng-click='vm.tryToLogin()' >Login</button> ",
+            "    </div> ",
+            "</form> "
+        ].join(" ")
+    });
+
+})();
+
+
+
+
+
+(function () {
+
+    "use strict";
+
+    function personalizeComponent() {
+
+    }
+
+    ngX.Component({
+        component: personalizeComponent
+    });
+
+})();
+
+
+
+(function () {
+
+    "use strict";
+
+    function playlistComponent() {
+
+    }
+
+    ngX.Component({
+        component: playlistComponent
+    });
+
+})();
+(function () {
+
+    "use strict";
+
+    function profileComponent() {
+
+    }
+
+    ngX.Component({
+        component: profileComponent
+    });
+
+})();
+
+
+
+(function () {
+
+    "use strict";
+
+    function profileManagementComponent() {
+
+    }
+
+    ngX.Component({
+        component: profileManagementComponent
+    });
+
+})();
+
+
+
+(function () {
+
+    "use strict";
+
+    function registrationComponent() {
+
+    }
+
+    ngX.Component({
+        component: registrationComponent
+    });
+
+})();
+
+
+
+(function () {
+
+    "use strict";
+
+    function registrationFormComponent($location, account) {
+        var self = this;
+
+        self.username = "";
+
+        self.firstName = "";
+
+        self.lastName = "";
+
+        self.password = "";
+
+        self.tryToRegister = function () {
+            securityManager.token = true;
+            $location.path("/");
+        }
+        return self;
+    }
+
+    ngX.Component({
+        selector: "registration-form",
+        component: registrationFormComponent,
+        providers: ["account"],
+        styles: [" .registration-form div {  padding-bottom: 15px; } "].join(" /n "),
+        template: [
+            "<form class='login-form'> ",
+            "    <div> ",
+            "        <input type='text' placeholder='Username' data-ng-model='vm.username' /> ",
+            "    </div> ",
+            "    <div> ",
+            "        <input type='text' placeholder='Firstname' data-ng-model='vm.username' /> ",
+            "    </div> ",
+            "    <div> ",
+            "        <input type='text' placeholder='Lastname' data-ng-model='vm.lastname' /> ",
+            "    </div> ",
+            "    <div> ",
+            "        <input type='password' placeholder='Password' data-ng-model='vm.password' /> ",
+            "    </div> ",
+            "    <div> ",
+            "        <input type='password' placeholder='Repeat Password' data-ng-model='vm.password' /> ",
+            "    </div> ",
+            "    <div> ",
+            "        <button data-ng-click='vm.tryToRegister()' >Register</button> ",
+            "    </div> ",
+            "</form> "
+        ].join(" ")
+    });
+
+})();
+
+
+
+
+
+(function () {
+
+    "use strict";
+
+    function searchComponent() {
+
+    }
+
+    ngX.Component({
+        component: searchComponent
+    });
+
+})();
+
+
+
+(function () {
+
+    "use strict";
+
+    function videoComponent() {
+
+    }
+
+    ngX.Component({
+        component: videoComponent
+    });
+
+})();
+
+
+
+(function () {
+
+    "use strict";
+
+    function videoPlayerComponent() {
+
+    }
+
+    ngX.Component({
+        component: videoPlayerComponent
+    });
+
+})();
+
+
+
+(function () {
+
+    "use strict";
+
+    function watchHistoryComponent() {
+
+    }
+
+    ngX.Component({
+        component: watchHistoryComponent
+    });
+
+})();
+
+
+
+(function () {
+
+    "use strict";
+
     function account($injector, $q, accountDataService, fire) {
 
         var self = this;
@@ -526,438 +958,6 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     angular.module("app").service("watchHistoryDataService", ["$q", "apiEndpoint", "dataService", watchHistoryDataService]);
 
 })();
-(function () {
-
-    "use strict";
-
-    function accountManagementComponent() {
-
-    }
-
-    ngX.Component({
-        component: accountManagementComponent
-    });
-
-})();
-(function () {
-
-    "use strict";
-
-    function AppComponent() {
-
-    }
-
-    ngX.Component({
-        selector: "app",
-        component: AppComponent,
-        template: [
-            "<div>",
-            "<app-header></app-header>",
-            "<div data-ng-view=''></div>",
-            "</div>"
-        ].join(" ")
-    });
-
-})();
-
-
-(function () {
-
-    "use strict";
-
-    function cardComponent($scope, securityManager) {
-
-        var self = this;
-
-        self.isLoggedIn = function () {
-            return (securityManager.token != null);
-        }
-
-        self.addToPlaylist = function(options) {
-            $scope.$emit({ action: "ADD_TO_PLAYLIST", data: {                
-                model: self.model,
-                currentUser: securityManager.currentUser
-            }});
-        }
-
-
-        return self;
-    }
-
-    ngX.Component({
-        selector: "card",
-        component: cardComponent,
-        providers: ["$scope","securityManager"],
-        inputs:["model"],
-        styles: [
-
-        ].join(" \n "),
-        template: [
-
-        ].join(" ")
-    });
-
-})();
-
-
-(function () {
-
-    "use strict";
-
-    function collectionComponent() {
-
-    }
-
-    ngX.Component({
-        component: collectionComponent
-    });
-
-})();
-(function () {
-
-    "use strict";
-
-    function collectionsComponent() {
-
-    }
-
-    ngX.Component({
-        component: collectionsComponent
-    });
-
-})();
-(function () {
-
-    "use strict";
-
-    function conferenceComponent() {
-
-    }
-
-    ngX.Component({
-        component: conferenceComponent
-    });
-
-})();
-(function () {
-
-    "use strict";
-
-    function HeaderComponent(securityManager) {
-
-        var self = this;
-
-        self.isLoggedIn = function () {
-            return (securityManager.token != null);
-        }
-
-        return self;
-    }
-
-    ngX.Component({
-        selector: "app-header",
-        component: HeaderComponent,
-        providers: ["securityManager"],
-        styles: [
-            ".app-header { width:100%; } ",
-            ".app-header a { text-decoration:none; } ",
-            ".app-header { padding-top:10px; padding-left:20px; padding-right:20px; height:100px; } ",
-            ".app-header h1 { font-size: 2em } ",
-            ".app-header .title { position:relative; float: left; width: 500px; } ",
-            ".app-header .links { position:relative; float: right; width: 400px; } ",
-        ].join(" \n "),
-        template: [
-            "<div class='app-header'>",
-            "<div class='title'>",
-            "<h1 href='#/'>Angular Frontend VOD</h1>",
-            "</div>",
-            "<div class='links'>",
-            "<a href='#/login'>Sign In</a>",
-            "<a href='#/register'>Register</a>",
-            "</div>",
-            "<div style='clear:both;'></div>",
-            "</div>"
-        ].join(" ")
-    });
-
-})();
-
-
-(function () {
-
-    "use strict";
-
-    function HomeComponent() {
-
-    }
-
-    ngX.Component({
-        component: HomeComponent
-    });
-
-})();
-
-
-
-(function () {
-
-    "use strict";
-
-    function loginComponent() {
-
-    }
-
-    ngX.Component({
-        component: loginComponent,
-        providers: ["conference"]
-    });
-
-})();
-
-
-
-(function () {
-
-    "use strict";
-
-    function LoginFormComponent($location, securityManager) {
-        var self = this;
-
-        self.username = "";
-
-        self.password = "";
-
-        self.tryToLogin = function () {
-            securityManager.token = true;
-            $location.path("/");
-        }
-        return self;
-    }
-
-    ngX.Component({
-        selector: "login-form",
-        component: LoginFormComponent,
-        providers: ["$location", "securityManager"],
-        styles: [" .login-form div {  padding-bottom: 15px; } "].join(" /n "),
-        template: [
-            "<form class='login-form'> ",
-            "    <div> ",
-            "        <input type='text' placeholder='Username' data-ng-model='vm.username' /> ",
-            "    </div> ",
-            "    <div> ",
-            "        <input type='password' placeholder='Password' data-ng-model='vm.username' /> ",
-            "    </div> ",
-            "    <div> ",
-            "        <button data-ng-click='vm.tryToLogin()' >Login</button> ",
-            "    </div> ",
-            "</form> "
-        ].join(" ")
-    });
-
-})();
-
-
-
-
-
-(function () {
-
-    "use strict";
-
-    function personalizeComponent() {
-
-    }
-
-    ngX.Component({
-        component: personalizeComponent
-    });
-
-})();
-
-
-
-(function () {
-
-    "use strict";
-
-    function playlistComponent() {
-
-    }
-
-    ngX.Component({
-        component: playlistComponent
-    });
-
-})();
-(function () {
-
-    "use strict";
-
-    function profileComponent() {
-
-    }
-
-    ngX.Component({
-        component: profileComponent
-    });
-
-})();
-
-
-
-(function () {
-
-    "use strict";
-
-    function profileManagementComponent() {
-
-    }
-
-    ngX.Component({
-        component: profileManagementComponent
-    });
-
-})();
-
-
-
-(function () {
-
-    "use strict";
-
-    function registrationComponent() {
-
-    }
-
-    ngX.Component({
-        component: registrationComponent
-    });
-
-})();
-
-
-
-(function () {
-
-    "use strict";
-
-    function registrationFormComponent($location, account) {
-        var self = this;
-
-        self.username = "";
-
-        self.firstName = "";
-
-        self.lastName = "";
-
-        self.password = "";
-
-        self.tryToRegister = function () {
-            securityManager.token = true;
-            $location.path("/");
-        }
-        return self;
-    }
-
-    ngX.Component({
-        selector: "registration-form",
-        component: registrationFormComponent,
-        providers: ["account"],
-        styles: [" .registration-form div {  padding-bottom: 15px; } "].join(" /n "),
-        template: [
-            "<form class='login-form'> ",
-            "    <div> ",
-            "        <input type='text' placeholder='Username' data-ng-model='vm.username' /> ",
-            "    </div> ",
-            "    <div> ",
-            "        <input type='text' placeholder='Firstname' data-ng-model='vm.username' /> ",
-            "    </div> ",
-            "    <div> ",
-            "        <input type='text' placeholder='Lastname' data-ng-model='vm.lastname' /> ",
-            "    </div> ",
-            "    <div> ",
-            "        <input type='password' placeholder='Password' data-ng-model='vm.password' /> ",
-            "    </div> ",
-            "    <div> ",
-            "        <input type='password' placeholder='Repeat Password' data-ng-model='vm.password' /> ",
-            "    </div> ",
-            "    <div> ",
-            "        <button data-ng-click='vm.tryToRegister()' >Register</button> ",
-            "    </div> ",
-            "</form> "
-        ].join(" ")
-    });
-
-})();
-
-
-
-
-
-(function () {
-
-    "use strict";
-
-    function searchComponent() {
-
-    }
-
-    ngX.Component({
-        component: searchComponent
-    });
-
-})();
-
-
-
-(function () {
-
-    "use strict";
-
-    function videoComponent() {
-
-    }
-
-    ngX.Component({
-        component: videoComponent
-    });
-
-})();
-
-
-
-(function () {
-
-    "use strict";
-
-    function videoPlayerComponent() {
-
-    }
-
-    ngX.Component({
-        component: videoPlayerComponent
-    });
-
-})();
-
-
-
-(function () {
-
-    "use strict";
-
-    function watchHistoryComponent() {
-
-    }
-
-    ngX.Component({
-        component: watchHistoryComponent
-    });
-
-})();
-
-
-
 (function () {
 
     "use strict";

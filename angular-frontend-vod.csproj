@@ -66,19 +66,26 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="packages.config" />
+    <Content Include="package.json" />
+    <Content Include="routes.json" />
+    <Content Include="videos.json" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="gulpfile.config.js" />
     <Content Include="gulpfile.js" />
     <Content Include="index.html" />
-    <Content Include="node_modules\angular-route\angular-route.js" />
-    <Content Include="node_modules\angular\angular.js" />
-    <Content Include="node_modules\jquery\dist\jquery.js" />
-    <Content Include="node_modules\ng-x-components\dist\ngX.components.js" />
-    <Content Include="node_modules\ng-x\dist\ngX.js" />
-    <Content Include="packages.config" />
-    <Content Include="package.json" />
+    <Content Include="src\app\app.module.js" />
     <Content Include="src\app\components\accountManagement.component.html" />
     <Content Include="src\app\components\accountManagement.component.js" />
     <Content Include="src\app\components\app.component.js" />
+    <Content Include="src\app\components\card.component.js" />
     <Content Include="src\app\components\collection.component.html" />
     <Content Include="src\app\components\collection.component.js" />
     <Content Include="src\app\components\collections.component.html" />
@@ -89,6 +96,7 @@
     <Content Include="src\app\components\header.component.js" />
     <Content Include="src\app\components\home.component.html" />
     <Content Include="src\app\components\home.component.js" />
+    <Content Include="src\app\components\login.component.html" />
     <Content Include="src\app\components\login.component.js" />
     <Content Include="src\app\components\loginForm.component.js" />
     <Content Include="src\app\components\personalize.component.html" />
@@ -110,40 +118,27 @@
     <Content Include="src\app\components\videoPlayer.component.js" />
     <Content Include="src\app\components\watchHistory.component.html" />
     <Content Include="src\app\components\watchHistory.component.js" />
-    <Content Include="src\app\domain\conference.js" />
-    <Content Include="src\app\domain\profiles.js" />
-    <Content Include="src\app\providers\conferenceDataService.js" />
-    <Content Include="videos.json" />
-    <Content Include="src\app\components\login.component.html" />
-    <Content Include="src\app\components\conferences.component" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="routes.json" />
-    <Content Include="src\app\app.module.js" />
     <Content Include="src\app\domain\account.js" />
     <Content Include="src\app\domain\collection.js" />
     <Content Include="src\app\domain\collectionItem.js" />
-    <Content Include="src\app\domain\playlist.js" />
+    <Content Include="src\app\domain\conference.js" />
+    <Content Include="src\app\domain\playList.js" />
     <Content Include="src\app\domain\playlistItem.js" />
     <Content Include="src\app\domain\profile.js" />
+    <Content Include="src\app\domain\profiles.js" />
     <Content Include="src\app\domain\video.js" />
     <Content Include="src\app\domain\watchHistory.js" />
     <Content Include="src\app\domain\watchHistoryItem.js" />
     <Content Include="src\app\providers\accountDataService.js" />
-    <Content Include="src\app\stores\accountStore.js" />
     <Content Include="src\app\providers\collectionDataService.js" />
+    <Content Include="src\app\providers\conferenceDataService.js" />
     <Content Include="src\app\providers\playlistDataService.js" />
-    <Content Include="src\app\stores\playlistStore.js" />
     <Content Include="src\app\providers\profileDataService.js" />
     <Content Include="src\app\providers\videoDataService.js" />
-    <Content Include="src\app\stores\videoStore.js" />
     <Content Include="src\app\providers\watchHistoryDataService.js" />
+    <Content Include="src\app\stores\accountStore.js" />
+    <Content Include="src\app\stores\playlistStore.js" />
+    <Content Include="src\app\stores\videoStore.js" />
     <Content Include="src\app\stores\watchHistoryStore.js" />
     <Content Include="src\reset.css" />
     <Content Include="src\site.css" />
@@ -153,7 +148,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="dist\" />
     <Folder Include="src\assets\images\" />
   </ItemGroup>
   <PropertyGroup>
@@ -169,9 +163,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>64693</DevelopmentServerPort>
+          <DevelopmentServerPort>55817</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:64693/</IISUrl>
+          <IISUrl>http://localhost:55817/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
