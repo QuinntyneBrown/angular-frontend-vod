@@ -8,7 +8,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     "use strict";
 
 
-    function accountActions(apiEndpoint,fetch) {
+    function accountActions(apiEndpoint, fetch) {
 
         var self = this;
 
@@ -29,7 +29,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
         return self;
     }
 
-    angular.module("app").service("accountDataService", ["$q", "apiEndpoint", "fetch", "fire", accountDataService]);
+    angular.module("app").service("accountActions", ["$q", "apiEndpoint", "fetch", "fire", accountActions]);
 
 })();
 (function () {
@@ -368,26 +368,6 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
-    function loginComponent() {
-
-    }
-
-    ngX.Component({
-        component: loginComponent,
-        template: ["<div class='login'>",
-            "<login-form></login-form>",
-            "</div>"
-        ].join(" ")
-    });
-
-})();
-
-
-
-(function () {
-
-    "use strict";
-
     function LoginFormComponent($location, securityManager) {
         var self = this;
 
@@ -425,6 +405,26 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 })();
 
 
+
+
+
+(function () {
+
+    "use strict";
+
+    function loginComponent() {
+
+    }
+
+    ngX.Component({
+        component: loginComponent,
+        template: ["<div class='login'>",
+            "<login-form></login-form>",
+            "</div>"
+        ].join(" ")
+    });
+
+})();
 
 
 
@@ -497,23 +497,6 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
-    function registrationComponent() {
-
-    }
-
-    ngX.Component({
-        component: registrationComponent,
-        template: ["<div class='registration'>", "</div>"].join(" ")
-    });
-
-})();
-
-
-
-(function () {
-
-    "use strict";
-
     function registrationFormComponent($location, account) {
         var self = this;
 
@@ -571,6 +554,25 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
+    function registrationComponent() {
+
+    }
+
+    ngX.Component({
+        component: registrationComponent,
+        template: ["<div class='registration'>",
+            "<registration-form></registration-form>",
+            "</div>"].join(" ")
+    });
+
+})();
+
+
+
+(function () {
+
+    "use strict";
+
     function searchComponent() {
 
     }
@@ -588,13 +590,13 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
-    function videoComponent() {
+    function videoPlayerComponent() {
 
     }
 
     ngX.Component({
-        component: videoComponent,
-        template: ["<div class='video'>", "</div>"].join(" ")
+        component: videoPlayerComponent,
+        template: ["<div class='video-player'>", "</div>"].join(" ")
     });
 
 })();
@@ -605,13 +607,13 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
-    function videoPlayerComponent() {
+    function videoComponent() {
 
     }
 
     ngX.Component({
-        component: videoPlayerComponent,
-        template: ["<div class='video-player'>", "</div>"].join(" ")
+        component: videoComponent,
+        template: ["<div class='video'>", "</div>"].join(" ")
     });
 
 })();
@@ -710,21 +712,6 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
-    function collection($injector, $q, collecitonDataService) {
-
-        var self = this;
-
-        return this;
-
-    }
-
-    angular.module("app").service("collection", ["$injector", "$q", "collectionDataService", collection]);
-
-})();
-(function () {
-
-    "use strict";
-
     function collectionItem($q, collecitonDataService) {
 
         var self = this;
@@ -734,6 +721,21 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     }
 
     angular.module("app").service("collectionItem", ["$injector", "$q", "collectionDataService", collectionItem]);
+
+})();
+(function () {
+
+    "use strict";
+
+    function collection($injector, $q, collecitonDataService) {
+
+        var self = this;
+
+        return this;
+
+    }
+
+    angular.module("app").service("collection", ["$injector", "$q", "collectionDataService", collection]);
 
 })();
 (function () {
@@ -788,21 +790,6 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
-    function playlist($q, playlistDataService) {
-
-        var self = this;
-
-        return this;
-
-    }
-
-    angular.module("app").service("playlist", ["$injector", "$q", "playlistDataService", playlist]);
-
-})();
-(function () {
-
-    "use strict";
-
     function playlistItem($q, playlistItemDataService) {
 
         var self = this;
@@ -812,6 +799,21 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     }
 
     angular.module("app").service("playlistItem", ["$injector", "$q", "playlistItemDataService", playlistItem]);
+
+})();
+(function () {
+
+    "use strict";
+
+    function playlist($q, playlistDataService) {
+
+        var self = this;
+
+        return this;
+
+    }
+
+    angular.module("app").service("playlist", ["$injector", "$q", "playlistDataService", playlist]);
 
 })();
 (function () {
@@ -931,21 +933,6 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
-    function watchHistory($injector, $q, watchHistoryService) {
-
-        var self = this;
-
-        return this;
-
-    }
-
-    angular.module("app").service("watchHistory", ["$injector", "$q", "watchHistoryService", watchHistory]);
-
-})();
-(function () {
-
-    "use strict";
-
     function watchHistoryItem($injector, $q, watchHistoryService) {
         var self = this;
         self.createInstanceAsync = function () {
@@ -956,6 +943,21 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     }
 
     angular.module("app").service("watchHistoryItem", ["$injector", "$q", "watchHistoryService", watchHistoryItem]);
+
+})();
+(function () {
+
+    "use strict";
+
+    function watchHistory($injector, $q, watchHistoryService) {
+
+        var self = this;
+
+        return this;
+
+    }
+
+    angular.module("app").service("watchHistory", ["$injector", "$q", "watchHistoryService", watchHistory]);
 
 })();
 (function () {

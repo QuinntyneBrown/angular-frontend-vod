@@ -3,7 +3,7 @@
     "use strict";
 
 
-    function accountActions(apiEndpoint,fetch) {
+    function accountActions(apiEndpoint, fetch) {
 
         var self = this;
 
@@ -24,6 +24,6 @@
         return self;
     }
 
-    angular.module("app").service("accountDataService", ["$q", "apiEndpoint", "fetch", "fire", accountDataService]);
+    angular.module("app").service("accountActions", ["$q", "apiEndpoint", "fetch", "fire", accountActions]);
 
 })();
