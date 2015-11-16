@@ -7,7 +7,8 @@
     }
 
     ngX.Component({
-        component: collectionComponent
+        component: collectionComponent,
+        template: ["<div class='collection'>", "</div>"].join(" ")
     });
 
 })();

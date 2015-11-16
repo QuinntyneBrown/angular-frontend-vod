@@ -7,7 +7,8 @@
     }
 
     ngX.Component({
-        component: accountManagementComponent
+        component: accountManagementComponent,
+        template: ["<div class='account-management'>", "</div>"].join(" ")
     });
 
 })();

@@ -7,7 +7,8 @@
     }
 
     ngX.Component({
-        component: searchComponent
+        component: searchComponent,
+        template: ["<div class='search'>", "</div>"].join(" ")
     });
 
 })();

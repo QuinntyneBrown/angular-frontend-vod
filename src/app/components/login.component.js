@@ -8,7 +8,10 @@
 
     ngX.Component({
         component: loginComponent,
-        providers: ["conference"]
+        template: ["<div class='login'>",
+            "<login-form></login-form>",
+            "</div>"
+        ].join(" ")
     });
 
 })();

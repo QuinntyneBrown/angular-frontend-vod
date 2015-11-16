@@ -7,7 +7,8 @@
     }
 
     ngX.Component({
-        component: conferenceComponent
+        component: conferenceComponent,
+        template: ["<div class='conference'>", "</div>"].join(" ")
     });
 
 })();

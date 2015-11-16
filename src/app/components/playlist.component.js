@@ -7,7 +7,8 @@
     }
 
     ngX.Component({
-        component: playlistComponent
+        component: playlistComponent,
+        template: ["<div class='playlist'>", "</div>"].join(" ")
     });
 
 })();

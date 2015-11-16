@@ -7,7 +7,8 @@
     }
 
     ngX.Component({
-        component: watchHistoryComponent
+        component: watchHistoryComponent,
+        template: ["<div class='watch-history'>", "</div>"].join(" ")
     });
 
 })();

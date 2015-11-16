@@ -7,7 +7,8 @@
     }
 
     ngX.Component({
-        component: videoPlayerComponent
+        component: videoPlayerComponent,
+        template: ["<div class='video-player'>", "</div>"].join(" ")
     });
 
 })();

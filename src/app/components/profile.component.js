@@ -7,7 +7,8 @@
     }
 
     ngX.Component({
-        component: profileComponent
+        component: profileComponent,
+        template: ["<div class='profile'>", "</div>"].join(" ")
     });
 
 })();

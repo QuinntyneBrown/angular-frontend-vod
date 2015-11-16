@@ -7,7 +7,8 @@
     }
 
     ngX.Component({
-        component: HomeComponent
+        component: HomeComponent,
+        template: ["<div class='home'>", "</div>"].join(" ")
     });
 
 })();

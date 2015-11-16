@@ -7,7 +7,8 @@
     }
 
     ngX.Component({
-        component: registrationComponent
+        component: registrationComponent,
+        template: ["<div class='registration'>", "</div>"].join(" ")
     });
 
 })();

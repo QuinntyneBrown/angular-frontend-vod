@@ -7,7 +7,8 @@
     }
 
     ngX.Component({
-        component: personalizeComponent
+        component: personalizeComponent,
+        template: ["<div class='personalize'>", "</div>"].join(" ")
     });
 
 })();

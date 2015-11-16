@@ -7,12 +7,196 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
+
+    function accountActions(apiEndpoint,fetch) {
+
+        var self = this;
+
+        self.register = function (options) {
+            fetch.fromService({ method: "POST", url: self.baseUri + "/register", data: options.data });
+        };
+
+        self.setCurrentProfile = function (options) {
+            fetch.fromService({ method: "PUT", url: self.baseUri + "/setCurrentProfile", data: options.data });
+        };
+
+        self.setDefaultProfile = function (options) {
+            fetch.fromService({ method: "PUT", url: self.baseUri + "/setDefaultProfile", data: options.data });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("account");
+
+        return self;
+    }
+
+    angular.module("app").service("accountDataService", ["$q", "apiEndpoint", "fetch", "fire", accountDataService]);
+
+})();
+(function () {
+
+    "use strict";
+
+
+    function collectionActions(apiEndpoint, fetch) {
+
+        var self = this;
+
+        self.getAll = function (options) {
+            fetch.fromService({
+                method: "GET", url: self.baseUri + "/getAll",
+                params: { accountId: options.accountId }
+            });
+        };
+
+        self.getById = function (options) {
+            fetch.fromService({
+                method: "GET", url: self.baseUri + "/getById",
+                params: { id: options.id }
+            });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("collection");
+
+        return self;
+    }
+
+    angular.module("app").service("collectionActions", ["$q", "apiEndpoint", "fetch", collectionActions]);
+
+})();
+(function () {
+
+    "use strict";
+
+
+    function conferenceActions(apiEndpoint, fetch) {
+
+        var self = this;
+
+        self.getAll = function (options) {
+            fetch.fromService({
+                method: "GET", url: self.baseUri + "/getAll"
+            });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("conference");
+
+        return self;
+    }
+
+    angular.module("app").service("conferenceActions", ["apiEndpoint", "fetch", conferenceActions]);
+
+})();
+(function () {
+
+    "use strict";
+
+
+    function playlistActions(apiEndpoint, fetch) {
+
+        var self = this;
+
+        self.getPlaylist = function (options) {
+            fetch.fromService({ method: "GET", url: self.baseUri + "/getPlaylist", params: { profileId: options.profileId } });            
+        };
+
+        self.addToPlaylist = function (options) {
+            fetch.fromService({
+                method: "POST", url: self.baseUri + "/addToPlaylist",
+                data: { playlistId: options.profileId, videoId: options.videoId }
+            });
+        };
+
+        self.removeFromPlaylist = function (options) {
+            fetch.fromService({
+                method: "POST", url: self.baseUri + "/removeFromPlaylist",
+                data: { playlistId: options.profileId, videoId: options.videoId }
+            });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("playlist");
+
+        return self;
+    }
+
+    angular.module("app").service("playlistActions", ["apiEndpoint", "dataService", playlistActions]);
+
+})();
+(function () {
+
+    "use strict";
+
+
+    function profileActions(apiEndpoint, fetch) {
+
+        var self = this;
+
+        self.getAll = function (options) {
+            fetch.fromService({
+                method: "GET", url: self.baseUri + "/getAll",
+                params: { accountId: options.accountId }
+            });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("profile");
+
+        return self;
+    }
+
+    angular.module("app").service("profileActions", ["apiEndpoint", "dataService", profileActions]);
+
+})();
+(function () {
+
+    "use strict";
+
+    function videoActions(apiEndpoint, fetch) {
+
+        var self = this;
+
+        self.getAll = function (options) {
+            fetch.fromService({ method: "GET", url: self.baseUri + "/getAll"});
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("video");
+
+        return self;
+    }
+
+    angular.module("app").service("videoActions", ["$q", "apiEndpoint", "fetch", videoActions]);
+
+})();
+(function () {
+
+    "use strict";
+
+
+    function watchHistoryActions(apiEndpoint, fetch) {
+
+        var self = this;
+
+        self.get = function (options) {
+            fetch.fromService({ method: "GET", url: self.baseUri + "/get" });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("watchHistory");
+
+        return self;
+    }
+
+    angular.module("app").service("watchHistoryActions", ["apiEndpoint", "fetch", watchHistoryActions]);
+
+})();
+(function () {
+
+    "use strict";
+
     function accountManagementComponent() {
 
     }
 
     ngX.Component({
-        component: accountManagementComponent
+        component: accountManagementComponent,
+        template: ["<div class='account-management'>", "</div>"].join(" ")
     });
 
 })();
@@ -86,7 +270,8 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     }
 
     ngX.Component({
-        component: collectionComponent
+        component: collectionComponent,
+        template: ["<div class='collection'>", "</div>"].join(" ")
     });
 
 })();
@@ -99,7 +284,8 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     }
 
     ngX.Component({
-        component: collectionsComponent
+        component: collectionsComponent,
+        template: ["<div class='collections'>", "</div>"].join(" ")
     });
 
 })();
@@ -112,7 +298,8 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     }
 
     ngX.Component({
-        component: conferenceComponent
+        component: conferenceComponent,
+        template: ["<div class='conference'>", "</div>"].join(" ")
     });
 
 })();
@@ -169,7 +356,8 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     }
 
     ngX.Component({
-        component: HomeComponent
+        component: HomeComponent,
+        template: ["<div class='home'>", "</div>"].join(" ")
     });
 
 })();
@@ -186,7 +374,10 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     ngX.Component({
         component: loginComponent,
-        providers: ["conference"]
+        template: ["<div class='login'>",
+            "<login-form></login-form>",
+            "</div>"
+        ].join(" ")
     });
 
 })();
@@ -246,7 +437,8 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     }
 
     ngX.Component({
-        component: personalizeComponent
+        component: personalizeComponent,
+        template: ["<div class='personalize'>", "</div>"].join(" ")
     });
 
 })();
@@ -262,7 +454,8 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     }
 
     ngX.Component({
-        component: playlistComponent
+        component: playlistComponent,
+        template: ["<div class='playlist'>", "</div>"].join(" ")
     });
 
 })();
@@ -275,7 +468,8 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     }
 
     ngX.Component({
-        component: profileComponent
+        component: profileComponent,
+        template: ["<div class='profile'>", "</div>"].join(" ")
     });
 
 })();
@@ -291,7 +485,8 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     }
 
     ngX.Component({
-        component: profileManagementComponent
+        component: profileManagementComponent,
+        template: ["<div class='profile-management'>", "</div>"].join(" ")
     });
 
 })();
@@ -307,7 +502,8 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     }
 
     ngX.Component({
-        component: registrationComponent
+        component: registrationComponent,
+        template: ["<div class='registration'>", "</div>"].join(" ")
     });
 
 })();
@@ -380,7 +576,8 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     }
 
     ngX.Component({
-        component: searchComponent
+        component: searchComponent,
+        template: ["<div class='search'>", "</div>"].join(" ")
     });
 
 })();
@@ -396,7 +593,8 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     }
 
     ngX.Component({
-        component: videoComponent
+        component: videoComponent,
+        template: ["<div class='video'>", "</div>"].join(" ")
     });
 
 })();
@@ -412,7 +610,8 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     }
 
     ngX.Component({
-        component: videoPlayerComponent
+        component: videoPlayerComponent,
+        template: ["<div class='video-player'>", "</div>"].join(" ")
     });
 
 })();
@@ -428,7 +627,8 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     }
 
     ngX.Component({
-        component: watchHistoryComponent
+        component: watchHistoryComponent,
+        template: ["<div class='watch-history'>", "</div>"].join(" ")
     });
 
 })();
@@ -763,206 +963,6 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     "use strict";
 
 
-    function accountDataService($q, apiEndpoint,dataService) {
-
-        var self = this;
-
-        self.register = function (options) {
-            var deferred = $q.defer();
-            dataService.fromService({ method: "POST", url: self.baseUri + "/register", data: options.data }).then(function (results) {
-                deferred.resolve();
-            });
-            return deferred.promise;
-        };
-
-        self.setCurrentProfile = function (options) {
-            var deferred = $q.defer();
-            dataService.fromService({ method: "PUT", url: self.baseUri + "/setCurrentProfile", data: options.data }).then(function (results) {
-                deferred.resolve();
-            });
-            return deferred.promise;
-        };
-
-        self.setDefaultProfile = function (options) {
-            var deferred = $q.defer();
-            dataService.fromService({ method: "PUT", url: self.baseUri + "/setDefaultProfile", data: options.data }).then(function (results) {
-                deferred.resolve();
-            });
-            return deferred.promise;
-        };
-
-        self.baseUri = apiEndpoint.getBaseUrl("account");
-
-        return self;
-    }
-
-    angular.module("app").service("accountDataService", ["$q", "apiEndpoint", "dataService", accountDataService]);
-
-})();
-(function () {
-
-    "use strict";
-
-
-    function collectionDataService($q, apiEndpoint, dataService) {
-
-        var self = this;
-
-        self.getAll = function (options) {
-            return dataService.fromService({
-                method: "GET", url: self.baseUri + "/getAll",
-                params: { accountId: options.accountId }
-            });
-        };
-
-        self.getById = function (options) {
-            return dataService.fromService({
-                method: "GET", url: self.baseUri + "/getById",
-                params: { id: options.id }
-            });
-        };
-
-        self.baseUri = apiEndpoint.getBaseUrl("collection");
-
-        return self;
-    }
-
-    angular.module("app").service("collectionDataService", ["$q", "apiEndpoint", "dataService", collectionDataService]);
-
-})();
-(function () {
-
-    "use strict";
-
-
-    function conferenceDataService($q, apiEndpoint, dataService) {
-
-        var self = this;
-
-        self.getAll = function (options) {
-            return dataService.fromService({
-                method: "GET", url: self.baseUri + "/getAll"
-            });
-        };
-
-        self.baseUri = apiEndpoint.getBaseUrl("conference");
-
-        return self;
-    }
-
-    angular.module("app").service("conferenceDataService", ["$q", "apiEndpoint", "dataService", conferenceDataService]);
-
-})();
-(function () {
-
-    "use strict";
-
-
-    function playlistDataService($q, apiEndpoint, dataService) {
-
-        var self = this;
-
-        self.getPlaylist = function (options) {
-            return dataService.fromService({ method: "GET", url: self.baseUri + "/getPlaylist", params: { profileId: options.profileId } });            
-        };
-
-        self.addToPlaylist = function (options) {
-            return dataService.fromService({
-                method: "POST", url: self.baseUri + "/addToPlaylist",
-                data: { playlistId: options.profileId, videoId: options.videoId }
-            });
-        };
-
-        self.removeFromPlaylist = function (options) {
-            return dataService.fromService({
-                method: "POST", url: self.baseUri + "/removeFromPlaylist",
-                data: { playlistId: options.profileId, videoId: options.videoId }
-            });
-        };
-
-        self.baseUri = apiEndpoint.getBaseUrl("playlist");
-
-        return self;
-    }
-
-    angular.module("app").service("playlistDataService", ["$q", "apiEndpoint", "dataService", playlistDataService]);
-
-})();
-(function () {
-
-    "use strict";
-
-
-    function profileDataService($q, apiEndpoint, dataService) {
-
-        var self = this;
-
-        self.getAll = function (options) {
-            return dataService.fromService({
-                method: "GET", url: self.baseUri + "/getAll",
-                params: { accountId: options.accountId }
-            });
-        };
-
-        self.baseUri = apiEndpoint.getBaseUrl("profile");
-
-        return self;
-    }
-
-    angular.module("app").service("profileDataService", ["$q", "apiEndpoint", "dataService", profileDataService]);
-
-})();
-(function () {
-
-    "use strict";
-
-
-    function videoDataService($q, apiEndpoint, dataService) {
-
-        var self = this;
-
-        self.getAll = function (options) {
-            return dataService.fromService({
-                method: "GET", url: self.baseUri + "/getAll"
-            });
-        };
-
-        self.baseUri = apiEndpoint.getBaseUrl("video");
-
-        return self;
-    }
-
-    angular.module("app").service("videoDataService", ["$q", "apiEndpoint", "dataService", videoDataService]);
-
-})();
-(function () {
-
-    "use strict";
-
-
-    function watchHistoryDataService($q, apiEndpoint, dataService) {
-
-        var self = this;
-
-        self.get = function (options) {
-            return dataService.fromService({
-                method: "GET", url: self.baseUri + "/get"
-            });
-        };
-
-        self.baseUri = apiEndpoint.getBaseUrl("watchHistory");
-
-        return self;
-    }
-
-    angular.module("app").service("watchHistoryDataService", ["$q", "apiEndpoint", "dataService", watchHistoryDataService]);
-
-})();
-(function () {
-
-    "use strict";
-
-
     function accountStore(localStorageManager) {
     
         var self = this;
@@ -994,7 +994,15 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     "use strict";
 
 
-    function playlistStore(localStorageManager) {
+    function playlistStore(fire, localStorageManager) {
+
+        document.addEventListener("FETCH_SUCCESS", (event) => {
+            if (event.options.url === "/addToPlaylist") {
+                // check of it was a success post to the add playlist endpoint and update the store
+                // fire notitification
+                fire(self.bodyNativeElement, "storeUpdate", { currentPlaylist: self.currentPlaylist });
+            }
+        });
 
         var self = this;
 
@@ -1003,10 +1011,14 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
             { get: function () { return localStorageManager.get({ name: "currentPlaylist" }); } }
             );
 
+        Object.defineProperty(self, "bodyNativeElement",
+            { get: function () { return document.getElementsByTagName("body")[0]; } }
+            );
+
         return self;
     }
 
-    angular.module("app").service("playlistStore", ["localStorageManager", playlistStore]);
+    angular.module("app").service("playlistStore", ["fire","localStorageManager", playlistStore]);
 
 })();
 (function () {
