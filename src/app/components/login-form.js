@@ -2,16 +2,21 @@
 
     "use strict";
 
-    function LoginFormComponent($location, securityStore) {
+    function LoginFormComponent($location, securityActions) {
         var self = this;
-
         self.username = "";
-
         self.password = "";
-
         self.tryToLogin = function () {
-            securityStore.token = true;
-            $location.path("/");
+            securityActions.tryToLogin({
+                data: {
+                    username: self.username,
+                    password: self.password
+                }
+            });
+        }
+        self.onStoreChange = function (options) {
+            if (options.actionName === "LOGIN_SUCCESS")
+                $location.path("/");            
         }
         return self;
     }
@@ -19,7 +24,7 @@
     ngX.Component({
         selector: "login-form",
         component: LoginFormComponent,
-        providers: ["$location", "securityStore"],
+        providers: ["$location", "securityActions"],
         styles: [" .login-form div {  padding-bottom: 15px; } "].join(" /n "),
         template: [
             "<form class='login-form'> ",
