@@ -10,7 +10,7 @@
             fetch.fromService({ method: "GET", url: self.baseUri + "/getAll"});
         };
 
-        self.baseUri = apiEndpoint.getBaseUrl("video");
+        self.baseUri = apiEndpoint.getBaseUrl("video") + "/video";
 
         return self;
     }

@@ -70,6 +70,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="routes.json" />
+    <Content Include="src\app\actions\security-actions.js" />
     <Content Include="videos.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -135,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="node_modules\" />
+    <Folder Include="src\app\constants\" />
     <Folder Include="src\assets\images\" />
   </ItemGroup>
   <ItemGroup>

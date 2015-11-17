@@ -1,7 +1,5 @@
 ﻿(function () {
 
-    "use strict";
-
     function securityActions(apiEndpoint, fetch, formEncode) {
 
         var self = this;
@@ -10,9 +8,9 @@
 
             var formEncodedData = formEncode(options.data);
 
-            var headers = [];
+            var headers = { "Content-Type": "application/x-www-form-urlencoded" };
 
-            fetch.fromService({ method: "POST", url: self.baseUri + "/token", data: formEncodedData, headers: headers });
+            fetch.fromService({ method: "POST", url:  self.baseUri + "/token", data: formEncodedData, headers: headers });
         };
 
         self.baseUri = apiEndpoint.getBaseUrl("security") + "/security";
@@ -20,6 +18,6 @@
         return self;
     }
 
-    angular.module("app").service("securityActions", ["$q", "apiEndpoint", "fetch", "formEncode", securityActions]);
+    angular.module("app").service("securityActions", ["apiEndpoint", "fetch", "formEncode", securityActions]);
 
 })();

@@ -1,5 +1,7 @@
-angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($routeProvider) {
+angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEndpointProvider", function ($routeProvider, apiEndpointProvider) {
     $routeProvider.buildFromUrl({ url: "routes.json" });
+    apiEndpointProvider.configure("http://videoondemandapi.azurewebsites.net")
+    apiEndpointProvider.configure("http://qbsecurityapi.azurewebsites.net", "security")
 }]).run(["$rootScope", function ($rootScope) {
     $rootScope.title = "Angular Frontend Video On Demand";
 }]);
@@ -147,6 +149,29 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 })();
 (function () {
 
+    function securityActions(apiEndpoint, fetch, formEncode) {
+
+        var self = this;
+
+        self.tryToLogin = function (options) {
+
+            var formEncodedData = formEncode(options.data);
+
+            var headers = { "Content-Type": "application/x-www-form-urlencoded" };
+
+            fetch.fromService({ method: "POST", url:  self.baseUri + "/token", data: formEncodedData, headers: headers });
+        };
+
+        self.baseUri = apiEndpoint.getBaseUrl("security") + "/security";
+
+        return self;
+    }
+
+    angular.module("app").service("securityActions", ["apiEndpoint", "fetch", "formEncode", securityActions]);
+
+})();
+(function () {
+
     "use strict";
 
     function videoActions(apiEndpoint, fetch) {
@@ -157,7 +182,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
             fetch.fromService({ method: "GET", url: self.baseUri + "/getAll"});
         };
 
-        self.baseUri = apiEndpoint.getBaseUrl("video");
+        self.baseUri = apiEndpoint.getBaseUrl("video") + "/video";
 
         return self;
     }
@@ -368,16 +393,21 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
 
     "use strict";
 
-    function LoginFormComponent($location, securityStore) {
+    function LoginFormComponent($location, securityActions) {
         var self = this;
-
         self.username = "";
-
         self.password = "";
-
         self.tryToLogin = function () {
-            securityStore.token = true;
-            $location.path("/");
+            securityActions.tryToLogin({
+                data: {
+                    username: self.username,
+                    password: self.password
+                }
+            });
+        }
+        self.onStoreChange = function (options) {
+            if (options.actionName === "LOGIN_SUCCESS")
+                $location.path("/");            
         }
         return self;
     }
@@ -385,7 +415,7 @@ angular.module("app", ["ngX.components"]).config(["$routeProvider", function ($r
     ngX.Component({
         selector: "login-form",
         component: LoginFormComponent,
-        providers: ["$location", "securityStore"],
+        providers: ["$location", "securityActions"],
         styles: [" .login-form div {  padding-bottom: 15px; } "].join(" /n "),
         template: [
             "<form class='login-form'> ",
