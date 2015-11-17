@@ -13,6 +13,7 @@
             fetch.fromService({ method: "POST", url:  self.baseUri + "/token", data: formEncodedData, headers: headers });
         };
 
+        
         self.baseUri = apiEndpoint.getBaseUrl("security") + "/security";
 
         return self;

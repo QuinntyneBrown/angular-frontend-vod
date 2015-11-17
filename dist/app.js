@@ -162,6 +162,7 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
             fetch.fromService({ method: "POST", url:  self.baseUri + "/token", data: formEncodedData, headers: headers });
         };
 
+        
         self.baseUri = apiEndpoint.getBaseUrl("security") + "/security";
 
         return self;
@@ -405,10 +406,7 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
                 }
             });
         }
-        self.onStoreChange = function (options) {
-            if (options.actionName === "LOGIN_SUCCESS")
-                $location.path("/");            
-        }
+
         return self;
     }
 
@@ -442,12 +440,20 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     "use strict";
 
-    function loginComponent() {
+    function loginComponent(loginRedirect) {
+        var self = this;
 
+        self.onStoreChange = function (options) {
+            if (options.actionName === "LOGIN_SUCCESS")
+                loginRedirect.redirectPreLogin();
+        }
+
+        return self;
     }
 
     ngX.Component({
         component: loginComponent,
+        providers: ["loginRedirect"],
         template: ["<div class='login'>",
             "<login-form></login-form>",
             "</div>"

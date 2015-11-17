@@ -14,10 +14,7 @@
                 }
             });
         }
-        self.onStoreChange = function (options) {
-            if (options.actionName === "LOGIN_SUCCESS")
-                $location.path("/");            
-        }
+
         return self;
     }
 
