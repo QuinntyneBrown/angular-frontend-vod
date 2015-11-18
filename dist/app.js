@@ -1,7 +1,7 @@
 angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEndpointProvider", function ($routeProvider, apiEndpointProvider) {
     $routeProvider.buildFromUrl({ url: "routes.json" });
-    apiEndpointProvider.configure("http://videoondemandapi.azurewebsites.net")
-    apiEndpointProvider.configure("http://qbsecurityapi.azurewebsites.net", "security")
+    apiEndpointProvider.configure("http://videoondemandapi.azurewebsites.net/api")
+    apiEndpointProvider.configure("http://localhost:50940/api", "security")
 }]).run(["$rootScope", function ($rootScope) {
     $rootScope.title = "Angular Frontend Video On Demand";
 }]);
@@ -155,6 +155,8 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
         self.tryToLogin = function (options) {
 
+            angular.extend(options.data, { grant_type: "password" });
+
             var formEncodedData = formEncode(options.data);
 
             var headers = { "Content-Type": "application/x-www-form-urlencoded" };
@@ -168,7 +170,8 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
         return self;
     }
 
-    angular.module("app").service("securityActions", ["apiEndpoint", "fetch", "formEncode", securityActions]);
+    angular.module("app")
+        .service("securityActions", ["apiEndpoint", "fetch", "formEncode", securityActions]);
 
 })();
 (function () {
@@ -394,7 +397,7 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     "use strict";
 
-    function LoginFormComponent($location, securityActions) {
+    function LoginFormComponent($location,  securityActions) {
         var self = this;
         self.username = "";
         self.password = "";
@@ -421,7 +424,7 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
             "        <input type='text' placeholder='Username' data-ng-model='vm.username' /> ",
             "    </div> ",
             "    <div> ",
-            "        <input type='password' placeholder='Password' data-ng-model='vm.username' /> ",
+            "        <input type='password' placeholder='Password' data-ng-model='vm.password' /> ",
             "    </div> ",
             "    <div> ",
             "        <button data-ng-click='vm.tryToLogin()' >Login</button> ",
@@ -443,9 +446,8 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
     function loginComponent(loginRedirect) {
         var self = this;
 
-        self.onStoreChange = function (options) {
-            if (options.actionName === "LOGIN_SUCCESS")
-                loginRedirect.redirectPreLogin();
+        self.onStoreUpdate = function (options) {
+            alert("Works?");
         }
 
         return self;
@@ -1034,7 +1036,7 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     function playlistStore(fire, localStorageManager) {
 
-        document.addEventListener("FETCH_SUCCESS", (event) => {
+        document.addEventListener("FETCH_SUCCESS", function(event) {
             if (event.options.url === "/addToPlaylist") {
                 // check of it was a success post to the add playlist endpoint and update the store
                 // fire notitification

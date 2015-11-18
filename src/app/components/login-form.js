@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function LoginFormComponent($location, securityActions) {
+    function LoginFormComponent($location,  securityActions) {
         var self = this;
         self.username = "";
         self.password = "";
@@ -29,7 +29,7 @@
             "        <input type='text' placeholder='Username' data-ng-model='vm.username' /> ",
             "    </div> ",
             "    <div> ",
-            "        <input type='password' placeholder='Password' data-ng-model='vm.username' /> ",
+            "        <input type='password' placeholder='Password' data-ng-model='vm.password' /> ",
             "    </div> ",
             "    <div> ",
             "        <button data-ng-click='vm.tryToLogin()' >Login</button> ",

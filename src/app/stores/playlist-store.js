@@ -5,7 +5,7 @@
 
     function playlistStore(fire, localStorageManager) {
 
-        document.addEventListener("FETCH_SUCCESS", (event) => {
+        document.addEventListener("FETCH_SUCCESS", function(event) {
             if (event.options.url === "/addToPlaylist") {
                 // check of it was a success post to the add playlist endpoint and update the store
                 // fire notitification

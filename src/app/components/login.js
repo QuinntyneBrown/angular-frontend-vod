@@ -5,9 +5,8 @@
     function loginComponent(loginRedirect) {
         var self = this;
 
-        self.onStoreChange = function (options) {
-            if (options.actionName === "LOGIN_SUCCESS")
-                loginRedirect.redirectPreLogin();
+        self.onStoreUpdate = function (options) {
+            alert("Works?");
         }
 
         return self;

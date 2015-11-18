@@ -6,6 +6,8 @@
 
         self.tryToLogin = function (options) {
 
+            angular.extend(options.data, { grant_type: "password" });
+
             var formEncodedData = formEncode(options.data);
 
             var headers = { "Content-Type": "application/x-www-form-urlencoded" };
@@ -19,6 +21,7 @@
         return self;
     }
 
-    angular.module("app").service("securityActions", ["apiEndpoint", "fetch", "formEncode", securityActions]);
+    angular.module("app")
+        .service("securityActions", ["apiEndpoint", "fetch", "formEncode", securityActions]);
 
 })();
