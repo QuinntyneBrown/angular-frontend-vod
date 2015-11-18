@@ -2,11 +2,11 @@
 
     "use strict";
 
-    function cardComponent() {
+    function slideComponent() {
 
         var self = this;
 
-        self.onAdd = function(options) {
+        self.onAdd = function (options) {
             if (self.model && self.model.onAdd)
                 self.model.onAdd();
         }
@@ -25,11 +25,11 @@
     }
 
     ngX.Component({
-        selector: "card",
-        component: cardComponent,
-        inputs:["model"],
+        selector: "slide",
+        component: slideComponent,
+        inputs: ["model"],
         styles: [
-            " .cardComponent { }"
+            " .slideComponent { }"
         ].join(" \n "),
         template: [
 
