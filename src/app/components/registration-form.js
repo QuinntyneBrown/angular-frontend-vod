@@ -20,6 +20,12 @@
         return self;
     }
 
+    registrationFormComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
+    }
+
     ngX.Component({
         selector: "registration-form",
         component: registrationFormComponent,

@@ -2,11 +2,27 @@
 
     "use strict";
 
-    function playlistItem($q, playlistItemActions) {
+    function playlistItem($injector, $q, playlistItemActions) {
 
         var self = this;
 
-        return this;
+        self.onAdd = function (options) {
+            playlistItemActions.addToPlaylist({
+
+            });
+        }
+
+        self.onRemove = function (options) {
+            playlistItemActions.removeFromPlaylist({
+
+            });
+        }
+
+        self.onStoreUpdate = function (options) {
+
+        }
+
+        return self;
 
     }
 

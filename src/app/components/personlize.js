@@ -6,6 +6,12 @@
 
     }
 
+    personalizeComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
+    }
+
     ngX.Component({
         component: personalizeComponent,
         template: ["<div class='personalize'>", "</div>"].join(" ")

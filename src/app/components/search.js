@@ -6,6 +6,18 @@
 
     }
 
+    searchComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
+    }
+
+    videoPlayerComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
+    }
+
     ngX.Component({
         component: searchComponent,
         template: ["<div class='search'>", "</div>"].join(" ")

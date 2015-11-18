@@ -6,7 +6,7 @@
         var self = this;
 
         self.onStoreUpdate = function (options) {
-            alert("Works?");
+            
         }
 
         return self;

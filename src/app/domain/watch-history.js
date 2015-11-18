@@ -6,7 +6,11 @@
 
         var self = this;
 
-        return this;
+        self.onStoreUpdate = function () {
+
+        }
+
+        return self;
 
     }
 

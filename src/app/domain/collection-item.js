@@ -6,7 +6,23 @@
 
         var self = this;
 
-        return this;
+        self.onAdd = function (options) {
+            collectionActions.add({
+
+            });
+        }
+
+        self.onRemove = function (options) {
+            collectionActions.remove({
+
+            });
+        }
+
+        self.onStoreUpdate = function (options) {
+
+        }
+
+        return self;
 
     }
 

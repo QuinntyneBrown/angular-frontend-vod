@@ -13,12 +13,12 @@
 
         self.onRemove = function (options) {
             if (self.model && self.model.onRemove)
-                self.model.onRemove();
+                self.model.onRemove(options);
         }
 
         self.onStoreUpdate = function (options) {
             if (self.model && self.model.onStoreUpdate)
-                self.model.onAdd();
+                self.model.onAdd(options);
         }
 
         return self;

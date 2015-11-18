@@ -2,11 +2,15 @@
 
     "use strict";
 
-    function playlist($q, playlistActions) {
+    function playlist($injector, $q, playlistActions) {
 
         var self = this;
 
-        return this;
+        self.onStoreUpdate = function (options) {
+
+        }
+
+        return self;
 
     }
 

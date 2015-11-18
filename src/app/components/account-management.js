@@ -3,7 +3,15 @@
     "use strict";
 
     function accountManagementComponent() {
+        var self = this;
 
+        return self;
+    }
+
+    accountManagementComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
     }
 
     ngX.Component({
