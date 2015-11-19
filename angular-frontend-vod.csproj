@@ -68,6 +68,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="node_modules\ng-x\dist\ngX.js" />
     <Content Include="packages.config" />
     <Content Include="routes.json" />
     <Content Include="src\app\actions\security-actions.js" />
@@ -136,7 +137,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="node_modules\" />
     <Folder Include="src\assets\images\" />
   </ItemGroup>
   <ItemGroup>

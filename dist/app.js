@@ -220,7 +220,15 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
     "use strict";
 
     function accountManagementComponent() {
+        var self = this;
 
+        return self;
+    }
+
+    accountManagementComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
     }
 
     ngX.Component({
@@ -255,21 +263,24 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     "use strict";
 
-    function cardComponent($scope, securityStore) {
+    function cardComponent() {
 
         var self = this;
 
-        self.isLoggedIn = function () {
-            return (securityStore.token != null);
+        self.onAdd = function(options) {
+            if (self.model && self.model.onAdd)
+                self.model.onAdd();
         }
 
-        self.addToPlaylist = function(options) {
-            $scope.$emit({ action: "ADD_TO_PLAYLIST", data: {                
-                model: self.model,
-                currentUser: securityStore.currentUser
-            }});
+        self.onRemove = function (options) {
+            if (self.model && self.model.onRemove)
+                self.model.onRemove(options);
         }
 
+        self.onStoreUpdate = function (options) {
+            if (self.model && self.model.onStoreUpdate)
+                self.model.onAdd(options);
+        }
 
         return self;
     }
@@ -277,10 +288,9 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
     ngX.Component({
         selector: "card",
         component: cardComponent,
-        providers: ["$scope","securityStore"],
         inputs:["model"],
         styles: [
-
+            " .cardComponent { }"
         ].join(" \n "),
         template: [
 
@@ -298,6 +308,12 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     }
 
+    collectionComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
+    }
+
     ngX.Component({
         component: collectionComponent,
         template: ["<div class='collection'>", "</div>"].join(" ")
@@ -310,6 +326,12 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     function collectionsComponent() {
 
+    }
+
+    collectionsComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
     }
 
     ngX.Component({
@@ -326,6 +348,12 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     }
 
+    conferenceComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
+    }
+
     ngX.Component({
         component: conferenceComponent,
         template: ["<div class='conference'>", "</div>"].join(" ")
@@ -336,12 +364,16 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     "use strict";
 
-    function HeaderComponent(securityStore) {
+    function HeaderComponent($rootScope, securityStore) {
 
         var self = this;
 
         self.isLoggedIn = function () {
-            return (securityStore.token != null);
+            return (securityStore.token !== null);
+        }
+
+        self.onStoreUpdate = function () {
+
         }
 
         return self;
@@ -350,7 +382,7 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
     ngX.Component({
         selector: "app-header",
         component: HeaderComponent,
-        providers: ["securityStore"],
+        providers: ["$rootScope","securityStore"],
         styles: [
             ".app-header { width:100%; } ",
             ".app-header a { text-decoration:none; } ",
@@ -382,6 +414,12 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     function HomeComponent() {
 
+    }
+
+    HomeComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
     }
 
     ngX.Component({
@@ -447,7 +485,7 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
         var self = this;
 
         self.onStoreUpdate = function (options) {
-            alert("Works?");
+            loginRedirect.redirectPreLogin();
         }
 
         return self;
@@ -474,6 +512,12 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     }
 
+    personalizeComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
+    }
+
     ngX.Component({
         component: personalizeComponent,
         template: ["<div class='personalize'>", "</div>"].join(" ")
@@ -489,6 +533,23 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     function playlistComponent() {
 
+        var self = this;
+
+        self.onInit = function () {
+            return ["$q", function ($q) {
+
+            }];
+        }
+
+
+        return self;
+      
+    }
+
+    playlistComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
     }
 
     ngX.Component({
@@ -505,6 +566,12 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     }
 
+    profileComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
+    }
+
     ngX.Component({
         component: profileComponent,
         template: ["<div class='profile'>", "</div>"].join(" ")
@@ -518,12 +585,17 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     "use strict";
 
-    function profileManagementComponent() {
+    function profilesManagementComponent() {
 
     }
 
+    profilesManagementComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
+    }
     ngX.Component({
-        component: profileManagementComponent,
+        component: profilesManagementComponent,
         template: ["<div class='profile-management'>", "</div>"].join(" ")
     });
 
@@ -551,6 +623,12 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
             $location.path("/");
         }
         return self;
+    }
+
+    registrationFormComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
     }
 
     ngX.Component({
@@ -615,6 +693,12 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     }
 
+    searchComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
+    }
+
     ngX.Component({
         component: searchComponent,
         template: ["<div class='search'>", "</div>"].join(" ")
@@ -622,6 +706,47 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
 })();
 
+
+
+(function () {
+
+    "use strict";
+
+    function slideComponent() {
+
+        var self = this;
+
+        self.onAdd = function (options) {
+            if (self.model && self.model.onAdd)
+                self.model.onAdd();
+        }
+
+        self.onRemove = function (options) {
+            if (self.model && self.model.onRemove)
+                self.model.onRemove();
+        }
+
+        self.onStoreUpdate = function (options) {
+            if (self.model && self.model.onStoreUpdate)
+                self.model.onAdd();
+        }
+
+        return self;
+    }
+
+    ngX.Component({
+        selector: "slide",
+        component: slideComponent,
+        inputs: ["model"],
+        styles: [
+            " .slideComponent { }"
+        ].join(" \n "),
+        template: [
+
+        ].join(" ")
+    });
+
+})();
 
 
 (function () {
@@ -649,6 +774,12 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     }
 
+    videoComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
+    }
+
     ngX.Component({
         component: videoComponent,
         template: ["<div class='video'>", "</div>"].join(" ")
@@ -664,6 +795,12 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     function watchHistoryComponent() {
 
+    }
+
+    watchHistoryComponent.canActivate = function () {
+        return ["$q", function ($q) {
+
+        }];
     }
 
     ngX.Component({
@@ -754,7 +891,23 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
         var self = this;
 
-        return this;
+        self.onAdd = function (options) {
+            collectionActions.add({
+
+            });
+        }
+
+        self.onRemove = function (options) {
+            collectionActions.remove({
+
+            });
+        }
+
+        self.onStoreUpdate = function (options) {
+
+        }
+
+        return self;
 
     }
 
@@ -769,7 +922,11 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
         var self = this;
 
-        return this;
+        self.onStoreUpdate = function (options) {
+
+        }
+
+        return self;
 
     }
 
@@ -828,11 +985,27 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     "use strict";
 
-    function playlistItem($q, playlistItemActions) {
+    function playlistItem($injector, $q, playlistItemActions) {
 
         var self = this;
 
-        return this;
+        self.onAdd = function (options) {
+            playlistItemActions.addToPlaylist({
+
+            });
+        }
+
+        self.onRemove = function (options) {
+            playlistItemActions.removeFromPlaylist({
+
+            });
+        }
+
+        self.onStoreUpdate = function (options) {
+
+        }
+
+        return self;
 
     }
 
@@ -843,11 +1016,15 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     "use strict";
 
-    function playlist($q, playlistActions) {
+    function playlist($injector, $q, playlistActions) {
 
         var self = this;
 
-        return this;
+        self.onStoreUpdate = function (options) {
+
+        }
+
+        return self;
 
     }
 
@@ -930,7 +1107,11 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
         var self = this;
 
-        return this;
+        self.onStoreUpdate = function (options) {
+
+        }
+
+        return self;
 
     }
 
@@ -941,15 +1122,16 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     "use strict";
 
-    function video($injector, $q, conference, playlistStore, videoActions, watchHistoryStore) {
+    function video($injector, $q, playlistActions, playlistStore, securityStore, videoActions, watchHistoryActions, watchHistoryStore) {
 
         var self = this;
 
         self.createInstanceAsync = function(options) {
-            var instance = new video($injector, $q, conference, playlistStore, videoActions, watchHistoryStore);
+            var instance = new video($injector, $q, playlistActions, playlistStore, securityStore, videoActions, watchHistoryActions, watchHistoryStore);
 
-
-            playlistStore.subscribe("PLAYLIST_UPDATE", instance.onStoreUpdate);
+            if (options.data) {
+                instance.id = options.data.id;
+            }
 
             return $q.when(instance);
         };
@@ -958,29 +1140,65 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
         };
 
+        self.onAdd = function (options) {
+            playlistactions.addToPlaylist({
+                data: {
+                    username: self.username,
+                    password: self.password
+                }
+            });
+        };
+
+        self.onClick = function (options) {
+            $location.path("/video/play/" + self.id);
+        };
+
         self.onPlaylist = false;
+        self.id = 0;
 
         return self;
 
     }
 
-    angular.module("app").service("video", ["$injector", "$q", "playlistStore", "videoActions", "watchHistoryStore", video]);
+    angular.module("app").service("video", [
+        "$injector",
+        "$q",
+        "playlistActions",
+        "playlistStore",
+        "securityStore",
+        "videoActions",
+        "watchHistoryActions",
+        "watchHistoryStore",
+        video]);
 
 })();
 (function () {
 
     "use strict";
 
-    function watchHistoryItem($injector, $q, watchHistoryService) {
+    function watchHistoryItem($injector, $q, watchHistoryActions, watchHistoryStore) {
         var self = this;
+
         self.createInstanceAsync = function () {
-            var instance = new watchHistoryItem($injector, $q, watchHistoryService);
+            var instance = new watchHistoryItem($injector, $q, watchHistoryActions, watchHistoryStore);
             return $q.when(instance);
         };
+
+        self.onStoreUpdate = function (options) {
+
+        }
+
+        self.onRemove = function (options) {
+            watchHistoryActions.remove({
+
+            });
+        }
+
+
         return self;
     }
 
-    angular.module("app").service("watchHistoryItem", ["$injector", "$q", "watchHistoryService", watchHistoryItem]);
+    angular.module("app").service("watchHistoryItem", ["$injector", "$q", "watchHistoryActions", "watchHistoryActions", watchHistoryItem]);
 
 })();
 (function () {
@@ -991,7 +1209,11 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
         var self = this;
 
-        return this;
+        self.onStoreUpdate = function () {
+
+        }
+
+        return self;
 
     }
 

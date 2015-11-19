@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function profileManagementComponent() {
+    function profilesManagementComponent() {
 
     }
 
@@ -12,7 +12,7 @@
         }];
     }
     ngX.Component({
-        component: profileManagementComponent,
+        component: profilesManagementComponent,
         template: ["<div class='profile-management'>", "</div>"].join(" ")
     });
 

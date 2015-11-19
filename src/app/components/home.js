@@ -6,7 +6,7 @@
 
     }
 
-    homeComponent.canActivate = function () {
+    HomeComponent.canActivate = function () {
         return ["$q", function ($q) {
 
         }];

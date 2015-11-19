@@ -4,13 +4,10 @@
 
     function HeaderComponent($rootScope, securityStore) {
 
-        $rootScope.$on("STORE_UPDATE", self.onStoreUpdate);
-
-
         var self = this;
 
         self.isLoggedIn = function () {
-            return (securityStore.token != null);
+            return (securityStore.token !== null);
         }
 
         self.onStoreUpdate = function () {

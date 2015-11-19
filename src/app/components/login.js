@@ -6,7 +6,7 @@
         var self = this;
 
         self.onStoreUpdate = function (options) {
-            
+            loginRedirect.redirectPreLogin();
         }
 
         return self;
