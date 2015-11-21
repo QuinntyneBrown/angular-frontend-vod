@@ -36,6 +36,26 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 angular.module("app").value("VIDEO_ACTIONS", {
     UPDATE_VIDEO_STORE_FEATURED_VIDEOS: "UPDATE_VIDEO_STORE_FEATURED_VIDEOS"
 });
+
+angular.module("app").value("PLAYLIST_ACTIONS", {
+    
+});
+
+angular.module("app").value("ACCOUNT_ACTIONS", {
+
+});
+
+angular.module("app").value("COLLECTION_ACTIONS", {
+
+});
+
+angular.module("app").value("PROFILE_ACTIONS", {
+
+});
+
+angular.module("app").value("WATCH_HISTORY_ACTIONS", {
+
+});
 (function () {
 
     "use strict";
@@ -95,7 +115,7 @@ angular.module("app").value("VIDEO_ACTIONS", {
     "use strict";
 
 
-    function playlistActions(apiEndpoint, fetch) {
+    function playlistActions(apiEndpoint, fetch, PLAYLIST_ACTIONS) {
 
         var self = this;
 
@@ -122,7 +142,7 @@ angular.module("app").value("VIDEO_ACTIONS", {
         return self;
     }
 
-    angular.module("app").service("playlistActions", ["apiEndpoint", "Actions", playlistActions]);
+    angular.module("app").service("playlistActions", ["apiEndpoint", "fetch","PLAYLIST_ACTIONS", playlistActions]);
 
 })();
 (function () {
@@ -1282,31 +1302,16 @@ angular.module("app").value("VIDEO_ACTIONS", {
     "use strict";
 
 
-    function playlistStore(fire, localStorageManager) {
-
-        document.addEventListener("FETCH_SUCCESS", function(event) {
-            if (event.options.url === "/addToPlaylist") {
-                // check of it was a success post to the add playlist endpoint and update the store
-                // fire notitification
-                fire(self.bodyNativeElement, "storeUpdate", { currentPlaylist: self.currentPlaylist });
-            }
-        });
+    function playlistStore(fire, localStorageManager, PLAYLIST_ACTIONS) {
 
         var self = this;
 
-        Object.defineProperty(self, "currentPlaylist",
-            { set: function (value) { localStorageManager.put({ name: "currentPlaylist", value: value }); } },
-            { get: function () { return localStorageManager.get({ name: "currentPlaylist" }); } }
-            );
-
-        Object.defineProperty(self, "bodyNativeElement",
-            { get: function () { return document.getElementsByTagName("body")[0]; } }
-            );
+        self.currentPlaylist = null;
 
         return self;
     }
 
-    angular.module("app").service("playlistStore", ["fire","localStorageManager", playlistStore]);
+    angular.module("app").service("playlistStore", ["fire","localStorageManager", "PLAYLIST_ACTIONS", playlistStore]);
 
 })();
 (function () {

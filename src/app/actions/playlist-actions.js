@@ -3,7 +3,7 @@
     "use strict";
 
 
-    function playlistActions(apiEndpoint, fetch) {
+    function playlistActions(apiEndpoint, fetch, PLAYLIST_ACTIONS) {
 
         var self = this;
 
@@ -30,6 +30,6 @@
         return self;
     }
 
-    angular.module("app").service("playlistActions", ["apiEndpoint", "Actions", playlistActions]);
+    angular.module("app").service("playlistActions", ["apiEndpoint", "fetch","PLAYLIST_ACTIONS", playlistActions]);
 
 })();

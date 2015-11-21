@@ -3,30 +3,15 @@
     "use strict";
 
 
-    function playlistStore(fire, localStorageManager) {
-
-        document.addEventListener("FETCH_SUCCESS", function(event) {
-            if (event.options.url === "/addToPlaylist") {
-                // check of it was a success post to the add playlist endpoint and update the store
-                // fire notitification
-                fire(self.bodyNativeElement, "storeUpdate", { currentPlaylist: self.currentPlaylist });
-            }
-        });
+    function playlistStore(fire, localStorageManager, PLAYLIST_ACTIONS) {
 
         var self = this;
 
-        Object.defineProperty(self, "currentPlaylist",
-            { set: function (value) { localStorageManager.put({ name: "currentPlaylist", value: value }); } },
-            { get: function () { return localStorageManager.get({ name: "currentPlaylist" }); } }
-            );
-
-        Object.defineProperty(self, "bodyNativeElement",
-            { get: function () { return document.getElementsByTagName("body")[0]; } }
-            );
+        self.currentPlaylist = null;
 
         return self;
     }
 
-    angular.module("app").service("playlistStore", ["fire","localStorageManager", playlistStore]);
+    angular.module("app").service("playlistStore", ["fire","localStorageManager", "PLAYLIST_ACTIONS", playlistStore]);
 
 })();
