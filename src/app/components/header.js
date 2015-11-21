@@ -11,7 +11,7 @@
         }
 
         self.onStoreUpdate = function () {
-
+            
         }
 
         return self;
@@ -34,10 +34,16 @@
             "<div class='title'>",
             "<h1 href='#/'>Angular Frontend VOD</h1>",
             "</div>",
-            "<div class='links'>",
+
+            "<div class='links' data-ng-if='!vm.isLoggedIn()'>",
             "<a href='#/login'>Sign In</a>",
             "<a href='#/register'>Register</a>",
             "</div>",
+
+            "<div class='links' data-ng-if='vm.isLoggedIn()'>",
+            "<a href='#/login'>Logout</a>",
+            "</div>",
+
             "<div style='clear:both;'></div>",
             "</div>"
         ].join(" ")

@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    function securityActions(apiEndpoint, fetch, formEncode) {
+    function securityActions(apiEndpoint, fetch, formEncode, guid) {
 
         var self = this;
 
@@ -22,6 +22,6 @@
     }
 
     angular.module("app")
-        .service("securityActions", ["apiEndpoint", "fetch", "formEncode", securityActions]);
+        .service("securityActions", ["apiEndpoint", "fetch", "formEncode", "guid", securityActions]);
 
 })();

@@ -1,6 +1,6 @@
 angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEndpointProvider", function ($routeProvider, apiEndpointProvider) {
     $routeProvider.buildFromUrl({ url: "routes.json" });
-    apiEndpointProvider.configure("http://videoondemandapi.azurewebsites.net/api")
+    apiEndpointProvider.configure("http://localhost:54471/api")
     apiEndpointProvider.configure("http://localhost:50940/api", "security")
 }]).run(["$rootScope", function ($rootScope) {
     $rootScope.title = "Angular Frontend Video On Demand";
@@ -149,7 +149,7 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 })();
 (function () {
 
-    function securityActions(apiEndpoint, fetch, formEncode) {
+    function securityActions(apiEndpoint, fetch, formEncode, guid) {
 
         var self = this;
 
@@ -171,19 +171,30 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
     }
 
     angular.module("app")
-        .service("securityActions", ["apiEndpoint", "fetch", "formEncode", securityActions]);
+        .service("securityActions", ["apiEndpoint", "fetch", "formEncode", "guid", securityActions]);
 
 })();
 (function () {
 
     "use strict";
 
-    function videoActions(apiEndpoint, fetch) {
+    function videoActions($rootScope, apiEndpoint, fetch, guid) {
 
         var self = this;
+        self.$rootScope = $rootScope;
 
-        self.getAll = function (options) {
-            fetch.fromService({ method: "GET", url: self.baseUri + "/getAll"});
+        self.getFeatured = function (options) {
+            var newGuid = guid();
+            var url = self.baseUri + "/getFeatured";
+            fetch.fromService({ method: "GET", url: url, guid: newGuid });
+            document.addEventListener("FETCH_SUCCESS", onSuccess);
+            function onSuccess(results) {
+                document.removeEventListener("FETCH_SUCCESS", onSuccess);
+                if (results.options.guid === newGuid) {
+                    self.$rootScope.$emit("UPDATE_VIDEO_STORE_FEATURED_VIDEOS", { data: results.results.data, guid: newGuid });
+                }
+            }
+            return newGuid;
         };
 
         self.baseUri = apiEndpoint.getBaseUrl("video") + "/video";
@@ -191,7 +202,7 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
         return self;
     }
 
-    angular.module("app").service("videoActions", ["$q", "apiEndpoint", "fetch", videoActions]);
+    angular.module("app").service("videoActions", ["$rootScope", "apiEndpoint", "fetch", "guid", videoActions]);
 
 })();
 (function () {
@@ -373,7 +384,7 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
         }
 
         self.onStoreUpdate = function () {
-
+            
         }
 
         return self;
@@ -396,10 +407,16 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
             "<div class='title'>",
             "<h1 href='#/'>Angular Frontend VOD</h1>",
             "</div>",
-            "<div class='links'>",
+
+            "<div class='links' data-ng-if='!vm.isLoggedIn()'>",
             "<a href='#/login'>Sign In</a>",
             "<a href='#/register'>Register</a>",
             "</div>",
+
+            "<div class='links' data-ng-if='vm.isLoggedIn()'>",
+            "<a href='#/login'>Logout</a>",
+            "</div>",
+
             "<div style='clear:both;'></div>",
             "</div>"
         ].join(" ")
@@ -412,19 +429,41 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     "use strict";
 
-    function HomeComponent() {
-
+    function HomeComponent(videoStore) {
+        var self = this;
+        self.featuredVideos = videoStore.featuredVideos;
+        return self;
     }
 
     HomeComponent.canActivate = function () {
-        return ["$q", function ($q) {
+        return ["$q", "$rootScope", "videoActions", "securityStore", function ($q, $rootScope, videoActions, securityStore) {
+            var deferred = $q.defer();
+            
+            if (!securityStore.token) {
+                deferred.reject();
+            } else {
 
+                var guid = videoActions.getFeatured();
+            
+                $rootScope.$on("STORE_UPDATE", function (event, object) {
+                    if(object.guid === guid)
+                        deferred.resolve(true);
+                });
+            }
+            
+            return deferred.promise;
         }];
     }
 
     ngX.Component({
         component: HomeComponent,
-        template: ["<div class='home'>", "</div>"].join(" ")
+        route: "/",
+        providers:["videoStore"],
+        template: [
+            "<div class='home'>",
+            "<p>{{ vm.featuredVideos }}</p>",
+            "</div>"
+        ].join(" ")
     });
 
 })();
@@ -1288,7 +1327,7 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
     "use strict";
 
 
-    function videoStore(localStorageManager) {
+    function videoStore($rootScope,localStorageManager) {
 
         var self = this;
 
@@ -1297,11 +1336,24 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
             { get: function () { return localStorageManager.get({ name: "currentvideo" }); } }
             );
 
+        self.featuredVideos = null;
+
+        self.onUpdateVideoStoreFeaturedVideos = function (event, object) {
+            self.featuredVideos = object.data;
+            $rootScope.$broadcast("STORE_UPDATE", { guid: object.guid, storeName: "VIDEO_STORE" });
+        }
+
+        $rootScope.$on("UPDATE_VIDEO_STORE_FEATURED_VIDEOS", self.onUpdateVideoStoreFeaturedVideos);
+
         return self;
     }
 
-    angular.module("app").service("videoStore", ["localStorageManager", videoStore]);
+    angular.module("app")
+        .service("videoStore", ["$rootScope", "localStorageManager", videoStore])
+        .run(["videoStore", function (videoStore) {
 
+        }]);
+    
 })();
 (function () {
 
