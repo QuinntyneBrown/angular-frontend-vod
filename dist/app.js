@@ -1,7 +1,6 @@
 angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEndpointProvider", function ($routeProvider, apiEndpointProvider) {
     $routeProvider.buildFromUrl({ url: "routes.json" });
-    apiEndpointProvider.configure("http://localhost:54471/api")
-    apiEndpointProvider.configure("http://localhost:50940/api", "security")
+    apiEndpointProvider.configure("http://localhost:54471/api");
 }]).run(["$rootScope", function ($rootScope) {
     $rootScope.title = "Angular Frontend Video On Demand";
 }]);
@@ -150,23 +149,14 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 (function () {
 
     function securityActions(apiEndpoint, fetch, formEncode, guid) {
-
         var self = this;
-
         self.tryToLogin = function (options) {
-
             angular.extend(options.data, { grant_type: "password" });
-
             var formEncodedData = formEncode(options.data);
-
             var headers = { "Content-Type": "application/x-www-form-urlencoded" };
-
             fetch.fromService({ method: "POST", url:  self.baseUri + "/token", data: formEncodedData, headers: headers });
         };
-
-        
         self.baseUri = apiEndpoint.getBaseUrl("security") + "/security";
-
         return self;
     }
 
@@ -178,7 +168,7 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     "use strict";
 
-    function videoActions($rootScope, apiEndpoint, fetch, guid) {
+    function videoActions($rootScope, apiEndpoint, fetch, fire, guid) {
 
         var self = this;
         self.$rootScope = $rootScope;
@@ -191,6 +181,7 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
             function onSuccess(results) {
                 document.removeEventListener("FETCH_SUCCESS", onSuccess);
                 if (results.options.guid === newGuid) {
+                    fire(document,"UPDATE_VIDEO_STORE_FEATURED_VIDEOS", { data: results.results.data, guid: newGuid });
                     self.$rootScope.$emit("UPDATE_VIDEO_STORE_FEATURED_VIDEOS", { data: results.results.data, guid: newGuid });
                 }
             }
@@ -202,7 +193,7 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
         return self;
     }
 
-    angular.module("app").service("videoActions", ["$rootScope", "apiEndpoint", "fetch", "guid", videoActions]);
+    angular.module("app").service("videoActions", ["$rootScope", "apiEndpoint", "fetch", "fire","guid", videoActions]);
 
 })();
 (function () {
@@ -431,26 +422,22 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     function HomeComponent(videoStore) {
         var self = this;
+
         self.featuredVideos = videoStore.featuredVideos;
+
         return self;
     }
 
     HomeComponent.canActivate = function () {
-        return ["$q", "$rootScope", "videoActions", "securityStore", function ($q, $rootScope, videoActions, securityStore) {
-            var deferred = $q.defer();
-            
-            if (!securityStore.token) {
-                deferred.reject();
-            } else {
-
-                var guid = videoActions.getFeatured();
-            
-                $rootScope.$on("STORE_UPDATE", function (event, object) {
-                    if(object.guid === guid)
-                        deferred.resolve(true);
-                });
+        return ["$q", "videoActions", "securityStore", function ($q, videoActions, securityStore) {
+            var deferred = $q.defer();            
+            var guid = videoActions.getFeatured();            
+            document.addEventListener("STORE_UPDATE", resolve);
+            function resolve() {
+                document.removeEventListener("STORE_UPDATE", resolve);
+                if (event.guid === guid)
+                    deferred.resolve(true);                    
             }
-            
             return deferred.promise;
         }];
     }
@@ -1161,12 +1148,20 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     "use strict";
 
-    function video($injector, $q, playlistActions, playlistStore, securityStore, videoActions, watchHistoryActions, watchHistoryStore) {
+    function video($injector, $location, $q) {
 
         var self = this;
 
+
         self.createInstanceAsync = function(options) {
-            var instance = new video($injector, $q, playlistActions, playlistStore, securityStore, videoActions, watchHistoryActions, watchHistoryStore);
+            var instance = new video($injector, $q);
+
+            instance.playlistActions = $injector("playlistActions");
+            instance.playlistStore = $injector("playlistStore");
+            instance.securityStore = $injector("securityStore");
+            instance.videoActions = $injector("videoActions");
+            instance.watchHistoryActions = $injector("watchHistoryActions");
+            instance.watchHistoryStore = $injector("watchHistoryStore");
 
             if (options.data) {
                 instance.id = options.data.id;
@@ -1180,7 +1175,7 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
         };
 
         self.onAdd = function (options) {
-            playlistactions.addToPlaylist({
+            this.playlistactions.addToPlaylist({
                 data: {
                     username: self.username,
                     password: self.password
@@ -1201,13 +1196,8 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     angular.module("app").service("video", [
         "$injector",
+        "$location",
         "$q",
-        "playlistActions",
-        "playlistStore",
-        "securityStore",
-        "videoActions",
-        "watchHistoryActions",
-        "watchHistoryStore",
         video]);
 
 })();
@@ -1327,7 +1317,7 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
     "use strict";
 
 
-    function videoStore($rootScope,localStorageManager) {
+    function videoStore($rootScope, fire, localStorageManager, video) {
 
         var self = this;
 
@@ -1338,18 +1328,17 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
         self.featuredVideos = null;
 
-        self.onUpdateVideoStoreFeaturedVideos = function (event, object) {
-            self.featuredVideos = object.data;
-            $rootScope.$broadcast("STORE_UPDATE", { guid: object.guid, storeName: "VIDEO_STORE" });
+        self.onUpdateVideoStoreFeaturedVideos = function (event) {
+            self.featuredVideos = event.data;
+            fire(document,"STORE_UPDATE",{ guid: event.guid, storeName: "VIDEO_STORE" })
         }
 
-        $rootScope.$on("UPDATE_VIDEO_STORE_FEATURED_VIDEOS", self.onUpdateVideoStoreFeaturedVideos);
-
+        document.addEventListener("UPDATE_VIDEO_STORE_FEATURED_VIDEOS", self.onUpdateVideoStoreFeaturedVideos);
         return self;
     }
 
     angular.module("app")
-        .service("videoStore", ["$rootScope", "localStorageManager", videoStore])
+        .service("videoStore", ["$rootScope", "fire","localStorageManager","video", videoStore])
         .run(["videoStore", function (videoStore) {
 
         }]);

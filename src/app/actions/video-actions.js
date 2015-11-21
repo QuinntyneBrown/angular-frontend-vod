@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function videoActions($rootScope, apiEndpoint, fetch, guid) {
+    function videoActions($rootScope, apiEndpoint, fetch, fire, guid) {
 
         var self = this;
         self.$rootScope = $rootScope;
@@ -15,6 +15,7 @@
             function onSuccess(results) {
                 document.removeEventListener("FETCH_SUCCESS", onSuccess);
                 if (results.options.guid === newGuid) {
+                    fire(document,"UPDATE_VIDEO_STORE_FEATURED_VIDEOS", { data: results.results.data, guid: newGuid });
                     self.$rootScope.$emit("UPDATE_VIDEO_STORE_FEATURED_VIDEOS", { data: results.results.data, guid: newGuid });
                 }
             }
@@ -26,6 +27,6 @@
         return self;
     }
 
-    angular.module("app").service("videoActions", ["$rootScope", "apiEndpoint", "fetch", "guid", videoActions]);
+    angular.module("app").service("videoActions", ["$rootScope", "apiEndpoint", "fetch", "fire","guid", videoActions]);
 
 })();

@@ -2,12 +2,20 @@
 
     "use strict";
 
-    function video($injector, $q, playlistActions, playlistStore, securityStore, videoActions, watchHistoryActions, watchHistoryStore) {
+    function video($injector, $location, $q) {
 
         var self = this;
 
+
         self.createInstanceAsync = function(options) {
-            var instance = new video($injector, $q, playlistActions, playlistStore, securityStore, videoActions, watchHistoryActions, watchHistoryStore);
+            var instance = new video($injector, $q);
+
+            instance.playlistActions = $injector("playlistActions");
+            instance.playlistStore = $injector("playlistStore");
+            instance.securityStore = $injector("securityStore");
+            instance.videoActions = $injector("videoActions");
+            instance.watchHistoryActions = $injector("watchHistoryActions");
+            instance.watchHistoryStore = $injector("watchHistoryStore");
 
             if (options.data) {
                 instance.id = options.data.id;
@@ -21,7 +29,7 @@
         };
 
         self.onAdd = function (options) {
-            playlistactions.addToPlaylist({
+            this.playlistactions.addToPlaylist({
                 data: {
                     username: self.username,
                     password: self.password
@@ -42,13 +50,8 @@
 
     angular.module("app").service("video", [
         "$injector",
+        "$location",
         "$q",
-        "playlistActions",
-        "playlistStore",
-        "securityStore",
-        "videoActions",
-        "watchHistoryActions",
-        "watchHistoryStore",
         video]);
 
 })();

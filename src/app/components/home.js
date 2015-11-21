@@ -4,26 +4,22 @@
 
     function HomeComponent(videoStore) {
         var self = this;
+
         self.featuredVideos = videoStore.featuredVideos;
+
         return self;
     }
 
     HomeComponent.canActivate = function () {
-        return ["$q", "$rootScope", "videoActions", "securityStore", function ($q, $rootScope, videoActions, securityStore) {
-            var deferred = $q.defer();
-            
-            if (!securityStore.token) {
-                deferred.reject();
-            } else {
-
-                var guid = videoActions.getFeatured();
-            
-                $rootScope.$on("STORE_UPDATE", function (event, object) {
-                    if(object.guid === guid)
-                        deferred.resolve(true);
-                });
+        return ["$q", "videoActions", "securityStore", function ($q, videoActions, securityStore) {
+            var deferred = $q.defer();            
+            var guid = videoActions.getFeatured();            
+            document.addEventListener("STORE_UPDATE", resolve);
+            function resolve() {
+                document.removeEventListener("STORE_UPDATE", resolve);
+                if (event.guid === guid)
+                    deferred.resolve(true);                    
             }
-            
             return deferred.promise;
         }];
     }
