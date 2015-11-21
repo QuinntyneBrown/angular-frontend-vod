@@ -3,7 +3,7 @@
     "use strict";
 
 
-    function videoStore($rootScope, fire, localStorageManager, video) {
+    function videoStore($rootScope, fire, localStorageManager, video, VIDEO_ACTIONS) {
 
         var self = this;
 
@@ -19,12 +19,14 @@
             fire(document,"STORE_UPDATE",{ guid: event.guid, storeName: "VIDEO_STORE" })
         }
 
-        document.addEventListener("UPDATE_VIDEO_STORE_FEATURED_VIDEOS", self.onUpdateVideoStoreFeaturedVideos);
+
+        document.addEventListener(VIDEO_ACTIONS.UPDATE_VIDEO_STORE_FEATURED_VIDEOS, self.onUpdateVideoStoreFeaturedVideos);
+ 
         return self;
     }
 
     angular.module("app")
-        .service("videoStore", ["$rootScope", "fire","localStorageManager","video", videoStore])
+        .service("videoStore", ["$rootScope", "fire","localStorageManager","video","VIDEO_ACTIONS", videoStore])
         .run(["videoStore", function (videoStore) {
 
         }]);

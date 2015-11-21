@@ -2,11 +2,8 @@
 
     "use strict";
 
-    function videoActions($rootScope, apiEndpoint, fetch, fire, guid) {
-
+    function videoActions(apiEndpoint, fetch, fire, guid, VIDEO_ACTIONS) {
         var self = this;
-        self.$rootScope = $rootScope;
-
         self.getFeatured = function (options) {
             var newGuid = guid();
             var url = self.baseUri + "/getFeatured";
@@ -15,18 +12,15 @@
             function onSuccess(results) {
                 document.removeEventListener("FETCH_SUCCESS", onSuccess);
                 if (results.options.guid === newGuid) {
-                    fire(document,"UPDATE_VIDEO_STORE_FEATURED_VIDEOS", { data: results.results.data, guid: newGuid });
-                    self.$rootScope.$emit("UPDATE_VIDEO_STORE_FEATURED_VIDEOS", { data: results.results.data, guid: newGuid });
+                    fire(document, VIDEO_ACTIONS.UPDATE_VIDEO_STORE_FEATURED_VIDEOS, { data: results.results.data, guid: newGuid });
                 }
             }
             return newGuid;
         };
-
         self.baseUri = apiEndpoint.getBaseUrl("video") + "/video";
-
         return self;
     }
 
-    angular.module("app").service("videoActions", ["$rootScope", "apiEndpoint", "fetch", "fire","guid", videoActions]);
+    angular.module("app").service("videoActions", ["apiEndpoint", "fetch", "fire","guid", "VIDEO_ACTIONS", videoActions]);
 
 })();

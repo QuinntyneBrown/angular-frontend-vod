@@ -33,6 +33,9 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
     angular.module("app").service("accountActions", ["$q", "apiEndpoint", "fetch", "fire", accountActions]);
 
 })();
+angular.module("app").value("VIDEO_ACTIONS", {
+    UPDATE_VIDEO_STORE_FEATURED_VIDEOS: "UPDATE_VIDEO_STORE_FEATURED_VIDEOS"
+});
 (function () {
 
     "use strict";
@@ -168,11 +171,8 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
 
     "use strict";
 
-    function videoActions($rootScope, apiEndpoint, fetch, fire, guid) {
-
+    function videoActions(apiEndpoint, fetch, fire, guid, VIDEO_ACTIONS) {
         var self = this;
-        self.$rootScope = $rootScope;
-
         self.getFeatured = function (options) {
             var newGuid = guid();
             var url = self.baseUri + "/getFeatured";
@@ -181,19 +181,16 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
             function onSuccess(results) {
                 document.removeEventListener("FETCH_SUCCESS", onSuccess);
                 if (results.options.guid === newGuid) {
-                    fire(document,"UPDATE_VIDEO_STORE_FEATURED_VIDEOS", { data: results.results.data, guid: newGuid });
-                    self.$rootScope.$emit("UPDATE_VIDEO_STORE_FEATURED_VIDEOS", { data: results.results.data, guid: newGuid });
+                    fire(document, VIDEO_ACTIONS.UPDATE_VIDEO_STORE_FEATURED_VIDEOS, { data: results.results.data, guid: newGuid });
                 }
             }
             return newGuid;
         };
-
         self.baseUri = apiEndpoint.getBaseUrl("video") + "/video";
-
         return self;
     }
 
-    angular.module("app").service("videoActions", ["$rootScope", "apiEndpoint", "fetch", "fire","guid", videoActions]);
+    angular.module("app").service("videoActions", ["apiEndpoint", "fetch", "fire","guid", "VIDEO_ACTIONS", videoActions]);
 
 })();
 (function () {
@@ -1317,7 +1314,7 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
     "use strict";
 
 
-    function videoStore($rootScope, fire, localStorageManager, video) {
+    function videoStore($rootScope, fire, localStorageManager, video, VIDEO_ACTIONS) {
 
         var self = this;
 
@@ -1333,12 +1330,14 @@ angular.module("app", ["ngX","ngX.components"]).config(["$routeProvider", "apiEn
             fire(document,"STORE_UPDATE",{ guid: event.guid, storeName: "VIDEO_STORE" })
         }
 
-        document.addEventListener("UPDATE_VIDEO_STORE_FEATURED_VIDEOS", self.onUpdateVideoStoreFeaturedVideos);
+
+        document.addEventListener(VIDEO_ACTIONS.UPDATE_VIDEO_STORE_FEATURED_VIDEOS, self.onUpdateVideoStoreFeaturedVideos);
+ 
         return self;
     }
 
     angular.module("app")
-        .service("videoStore", ["$rootScope", "fire","localStorageManager","video", videoStore])
+        .service("videoStore", ["$rootScope", "fire","localStorageManager","video","VIDEO_ACTIONS", videoStore])
         .run(["videoStore", function (videoStore) {
 
         }]);
